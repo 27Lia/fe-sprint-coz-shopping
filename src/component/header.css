@@ -1,0 +1,20 @@
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1280px;
+    height: 80px;
+    padding: 0px 76px;
+    position: sticky;
+}
+
+.logo-title {
+    font-size: 2rem;
+    font-weight: bold;
+    padding-left: 12px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
