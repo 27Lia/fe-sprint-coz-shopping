@@ -1,0 +1,31 @@
+.list-container {
+    width: 1128px;
+    height: 640px;
+    gap: 12px;
+}
+
+
+.item-container {
+    list-style: none;
+    gap: 0.75rem;
+    width: 1128px;
+    height: 264px;
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.list-title {
+    font-size: 1.5rem;
+    font-style: normal;
+}
+
+.img {
+    width: 264px;
+    height: 210px;
+}
+
+.item {
+    width: 264px;
+    height: 264px;
+}
