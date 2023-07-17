@@ -27,20 +27,17 @@ function App() {
       </div>
 
       {isDropdownOpen && (
-        <div className="dropdown-overlay">
           <div className="dropdown-menu">
-            <ul className='list-container'>
-            <li className="list-box" >OOO님 안녕하세요!</li>
+            <ul className='dropdown-container'>
+            <li className="list-box" ><span className='dropdown-text'>OOO님 안녕하세요!</span ></li>
               <li className="list-box" onClick={() => (window.location.href = '/products/list')}>
-                상품리스트
+             <img className='icon' src='./item.svg' alt='상품 아이콘'></img>  <span className='dropdown-text'>상품리스트</span>
               </li>
               <li className="list-box"onClick={() => (window.location.href = '/bookmark')}>
-                북마크 페이지
+              <img className='icon' src='./bookmark.svg' alt='북마크 아이콘'></img> <span className='dropdown-text'>북마크 페이지</span>
               </li>
             </ul>
           </div>
-        </div>
-
       )}
 
       <Main>
