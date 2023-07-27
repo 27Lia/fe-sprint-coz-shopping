@@ -1,54 +1,116 @@
-import React, { useState } from 'react';
-import Main from './page/Main';
-import './base.css';
-import './component/header.css';
-import './component/footer.css';
-import './component/app.css';
-// 헤더, 푸터, 드롭다운 
+import React, { useEffect, useState } from "react";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import MainPage from "./page/MainPage";
+import Footer from "./component/Footer";
+import BookMark from "./page/BookMark";
+import ProductListPage from "./page/ProductListPage";
+import Header from "./component/Header";
+import axios from 'axios';
+import Modal from "./component/Modal";
+import Toast from "./component/Toast";
+
 
 function App() {
+  const [products, setProducts] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [modalImage, setModalImage] = useState(''); // modalImage 상태 선언
+  const [showToast, setShowToast] = useState(false); // 알림 표시 여부를 관리하는 상태
+  const [message, setMessage] = useState(''); 
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  useEffect(() => {
+  const fetchProducts = async () => {
+  try {
+  // 지정된 URL로 GET 요청을 보내고 응답을 기다림
+  const response = await axios.get('http://cozshopping.codestates-seb.link/api/v1/products');
+  // 응답에서 데이터를 추출
+  const data = response.data;
+    // 'products' 상태를 검색한 데이터로 업데이트
+  setProducts(data);
+  console.log(data)
+  } catch (error) {
+  // API 요청 중에 발생한 오류처리
+  console.error('API 요청 중 오류가 발생했습니다:', error);
+  }
   };
+  
+  // 컴포넌트가 마운트될 때 fetchProducts 함수를 실행
+  fetchProducts();
+  }, []);
+
+
+  
+const toggleBookmark = (item) => {
+  setProducts((prevProduct) =>
+    prevProduct.map((product) => {
+      if (product.id === item.id) {
+        const  updataProduct = { ...product, checked: !product.checked };
+        setMessage(updataProduct.checked
+        ? "상품이 북마크에 추가되었습니다."
+        : "상품이 북마크에서 제거되었습니다.");
+        setShowToast(true);
+        setTimeout(()=>{
+          setShowToast(false);
+        },3000);
+        return updataProduct;
+      } else {
+        return product;
+      } 
+    })
+  );
+};
+
+const openModal = (img) => {
+  setModal(true);
+  setModalImage(img);
+};
+
+const closeModal = () => {
+  setModal(false);
+};
 
   return (
-    <div className="app">
-      <div className="header-container">
-        <div className='logo-container'>
-          <div className='logo-img' >
-            <img src="logo.png" alt="logo" />
-          </div>
-          <span className="logo-title">Coz Shopping</span>
+    <BrowserRouter>
+      <div className="app">
+        <Header />
+        <Routes>
+          <Route path="/"
+              element={<MainPage
+              products={products}
+              toggleBookmark={toggleBookmark}
+              openModal={openModal}
+            />} />
+          <Route path="/bookmark"
+              element={<BookMark
+              products={products}
+              toggleBookmark={toggleBookmark}
+              openModal={openModal}
+            />} />
+          <Route path="/products/list"
+              element={<ProductListPage
+              products={products}
+              toggleBookmark={toggleBookmark}
+              openModal={openModal}
+            />} />
+        </Routes>
+        <Footer />
+        {modal && (
+          <Modal
+            isOpen={modal}
+            image={modalImage}
+            closeModal={closeModal}
+          />
+        )}
+         {showToast && (<Toast 
+         message={message} 
+         checked={products.some((product) => product.checked)}
+         />
+         )}
         </div>
-        <img src="hamburger.png" alt="hamburger" onClick={toggleDropdown} />
-      </div>
+    </BrowserRouter>
 
-      {isDropdownOpen && (
-          <div className="dropdown-menu">
-            <ul className='dropdown-container'>
-            <li className="list-box" ><span className='dropdown-text'>OOO님 안녕하세요!</span ></li>
-              <li className="list-box" onClick={() => (window.location.href = '/products/list')}>
-             <img className='icon' src='./item.svg' alt='상품 아이콘'></img>  <span className='dropdown-text'>상품리스트</span>
-              </li>
-              <li className="list-box"onClick={() => (window.location.href = '/bookmark')}>
-              <img className='icon' src='./bookmark.svg' alt='북마크 아이콘'></img> <span className='dropdown-text'>북마크 페이지</span>
-              </li>
-            </ul>
-          </div>
-      )}
-
-      <Main>
-      </Main>
-      <footer className="footer-container">
-        <span>개인정보 처리방침 | 이용 약관</span>
-        <span>All rights reserved @ Codestates</span>
-      </footer>
-    </div>
-
-  );
+  )
 }
-
 export default App;
+
+
