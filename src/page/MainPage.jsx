@@ -5,16 +5,18 @@ import ProductCard from "../component/ProductCard";
 
 
 const StyleMainPage = styled.div`
-    
-section {
-    display: flex;
-    flex-direction:column;
-    align-items:center;
+    display:flex;
     justify-content:center;
-    margin: 24px 76px;
-    gap: 0.75rem;  
-    height:100vh
-    }
+    gap: 0.75rem;
+    
+
+section {
+    display:flex;
+    flex-direction:column;
+    position:absolute;
+    top:20%;
+}
+
 h3 {
     font-size: 24px;
     font-weight: 600;
