@@ -12,6 +12,8 @@ const StyleDropdown = styled.div`
     border-radius: 12px;
     background: whitesmoke ;
     z-index:999;
+
+    
 } 
 
 
@@ -22,7 +24,7 @@ const StyleDropdown = styled.div`
     height: 50px;
     margin-left: 24px;
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.10);
-    
+
 }
 
 .icon {

@@ -4,22 +4,28 @@ import { styled } from "styled-components";
 
 
 const StyleBookMark = styled.div`
- 
+    position:relative;
+    top: 100px;   
     display: flex;
     flex-direction:column;
     align-items:center;
-
+    justify-content:center;
+    
     nav {
         margin-top: 24px;
+        justify-content:center;
     }
 
     ul {
         display:flex;
         gap:36px;
+        
     }
 
     main {
-    display:flex;
+    display:grid;
+    grid-template-columns: repeat(4, 1fr); // 4개의 열로 구성
+    grid-template-rows: repeat(4, 3fr); // 4개의 열로 구성
     align-items:center;
     margin: 24px 76px;
     gap: 0.75rem;
@@ -84,10 +90,10 @@ function BookMark({ products, toggleBookmark, openModal }) {
 
             {filterProduct
                 .filter((product) => product.checked)
-                .slice(0,4 ).length ? (
+                .slice(0,4).length ? (
                 filterProduct
                     .filter((product) => product.checked)
-                    .slice(0, 4)
+                    .slice(0, 10)
                     .map((product) => (
                         <ProductCard
                             key={product.id}
@@ -104,3 +110,4 @@ function BookMark({ products, toggleBookmark, openModal }) {
     )
 }
 export default BookMark;
+

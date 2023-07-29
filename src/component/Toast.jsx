@@ -6,7 +6,7 @@ display: flex;
 justify-content: flex-end;
 align-items: center;
 position: fixed;
-    bottom: 24px;
+    bottom: 80px;
     right:24px;
 .message-box {
 width:281px;

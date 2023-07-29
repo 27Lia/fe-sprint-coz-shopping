@@ -3,12 +3,15 @@ import ProductCard from "../component/ProductCard";
 import { styled } from "styled-components";
 
 const StyleProductList = styled.div`
+    position:relative;
+    top: 100px;   
     display: flex;
     flex-direction:column;
     align-items:center;
-    
+    justify-content:center;
     nav {
         margin-top: 24px;
+        justify-content:center;    
     }
 
     ul {
@@ -17,11 +20,14 @@ const StyleProductList = styled.div`
     }
 
     main {
-    display:flex;
+    display:grid;
+    grid-template-columns: repeat(4, 1fr); // 4개의 열로 구성
+    grid-template-rows: repeat(4, 3fr); // 4개의 열로 구성
     align-items:center;
     margin: 24px 76px;
     gap: 0.75rem;
     }
+
 
     button {
         cursor:pointer;
@@ -80,7 +86,7 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
                 {/* filterProduct를 사용하여 필터링된 상품들만 렌더링합니다. */}
                 {filterProduct
                     .filter((product) => !product.checked)
-                    .slice(0, 4)
+                    .slice(0, 10)
                     .map((product) => (
                         <ProductCard
                             key={product.id}

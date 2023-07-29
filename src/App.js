@@ -41,6 +41,8 @@ function App() {
 
   
 const toggleBookmark = (item) => {
+  console.log(item);
+
   setProducts((prevProduct) =>
     prevProduct.map((product) => {
       if (product.id === item.id) {
@@ -60,10 +62,12 @@ const toggleBookmark = (item) => {
   );
 };
 
-const openModal = (img) => {
+const openModal = (product) => {
+  console.log(product); // 인자로 전달된 객체를 콘솔에 출력
   setModal(true);
-  setModalImage(img);
+  setModalImage(product.type === "Brand" ? product.brand_image_url : product.image_url);
 };
+
 
 const closeModal = () => {
   setModal(false);
@@ -96,9 +100,12 @@ const closeModal = () => {
         <Footer />
         {modal && (
           <Modal
+            products={products}
+            openModal={openModal}
             isOpen={modal}
             image={modalImage}
             closeModal={closeModal}
+            toggleBookmark={toggleBookmark}
           />
         )}
          {showToast && (<Toast 

@@ -11,9 +11,13 @@ const ModalBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index:1;
 
+.modalcontent {
+  position:relative;
+}
 
-img {
+.main-img {
     width: 744px;
     height:480px;
     border-radius: 12px;
@@ -21,26 +25,42 @@ img {
 }
 button {
   position: absolute;
-  top: 27%;
-  right:32%;
+  top: 20px;
+  right:50px;
   font-size: 24px;
   color: white;
   cursor: pointer;
 }
+.star {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 20px;
+    cursor: pointer;
+    bottom: 20px;
+  }
 `
 
-
-function Modal({ isOpen, closeModal, image }) {
+function Modal({ isOpen, closeModal, image, toggleBookmark, checked, products }) {
   if (!isOpen) return null;
+    // products 배열을 product로 변경하는 로직 추가
+    const product = products.find((item) => item.image_url === image || item.brand_image_url === image);
 
   return (
     <ModalBackground onClick={closeModal}>
       <div className="modalcontent">
-        <img src={image} alt="modal" />        
+        <img className="main-img" src={image} alt="modal" />
+        <img
+          onClick={() => toggleBookmark(product)}                   
+          className="star"
+          src={checked ? "/images/checkedStar.svg" : "/images/uncheckedStar.svg"}
+          alt="book mark" 
+        />
         <button onClick={closeModal}>X</button>
       </div>
     </ModalBackground>
   );
 }
+
 
 export default Modal;

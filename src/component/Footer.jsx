@@ -12,11 +12,12 @@ const StyleFooter = styled.footer`
     justify-content: center;
     align-items: center;
     color: #888;
-    margin-bottom: 6px;
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
+    z-index:1;
+    background-color:#fff;
 }
 `
 
