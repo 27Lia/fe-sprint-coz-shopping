@@ -63,7 +63,6 @@ const toggleBookmark = (item) => {
 };
 
 const openModal = (product) => {
-  console.log(product); // 인자로 전달된 객체를 콘솔에 출력
   setModal(true);
   setModalImage(product.type === "Brand" ? product.brand_image_url : product.image_url);
 };
@@ -114,6 +113,7 @@ const closeModal = () => {
          />
          )}
         </div>
+        
     </BrowserRouter>
 
   )

@@ -37,15 +37,16 @@ button {
     height: 24px;
     right: 20px;
     cursor: pointer;
-    bottom: 20px;
+    bottom: 20px; 
   }
 `
 
 function Modal({ isOpen, closeModal, image, toggleBookmark, checked, products }) {
+  console.log(image);
   if (!isOpen) return null;
-    // products 배열을 product로 변경하는 로직 추가
+    // products 배열을 product로 변경하는 로직 추가, products 배열에서 클릭한 이미지 URL과 일치하는 상품 객체를 찾아냄
     const product = products.find((item) => item.image_url === image || item.brand_image_url === image);
-
+  console.log(product)
   return (
     <ModalBackground onClick={closeModal}>
       <div className="modalcontent">

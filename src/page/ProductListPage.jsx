@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProductCard from "../component/ProductCard";
 import { styled } from "styled-components";
+import { useInView } from 'react-intersection-observer';
+import axios from 'axios';
 
 const StyleProductList = styled.div`
     position:relative;
@@ -32,10 +34,14 @@ const StyleProductList = styled.div`
     button {
         cursor:pointer;
     }
+    .blank {
+        height:100px;
+    }
 `
 
 function ProductListPage({ products, toggleBookmark, openModal }) {
     const [filterOption, setFilterOption] = useState("전체");
+    const [ref, inView] = useInView();
 
     const filterProduct = products.filter((product) => {
         if (filterOption === "전체") {
@@ -45,6 +51,19 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
         }
     });
 
+    const fetchMoreProducts = async () => {
+        try {
+            await axios.get("http://cozshopping.codestates-seb.link/api/v1/products");
+        }   catch (error) {
+            console.error("상품을 가져오는 데 에러 발생:", error);
+        }
+    };
+
+    useEffect(() => {
+        if (inView) {
+            fetchMoreProducts();
+        }
+    }, [inView]);
 
     return (
         <StyleProductList>
@@ -86,7 +105,7 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
                 {/* filterProduct를 사용하여 필터링된 상품들만 렌더링합니다. */}
                 {filterProduct
                     .filter((product) => !product.checked)
-                    .slice(0, 10)
+                    .slice(0)
                     .map((product) => (
                         <ProductCard
                             key={product.id}
@@ -97,6 +116,8 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
                         />
                     ))}
             </main>
+            <div className="blank" ref={ref}></div>
+
         </StyleProductList>
     )
 }
