@@ -16,7 +16,9 @@ section {
     position:absolute;
     top:20%;
 }
-
+article {
+    margin-bottom:12px;
+}
 h3 {
     font-size: 24px;
     font-weight: 600;

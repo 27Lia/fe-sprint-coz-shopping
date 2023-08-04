@@ -23,8 +23,8 @@ const StyleProductList = styled.div`
 
     main {
     display:grid;
-    grid-template-columns: repeat(4, 1fr); // 4개의 열로 구성
-    grid-template-rows: repeat(4, 3fr); // 4개의 열로 구성
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 3fr);
     align-items:center;
     margin: 24px 76px;
     gap: 0.75rem;
@@ -104,7 +104,7 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
             <main>
                 {/* filterProduct를 사용하여 필터링된 상품들만 렌더링합니다. */}
                 {filterProduct
-                    .filter((product) => !product.checked)
+                    .filter((product) => !product.checked) 
                     .slice(0)
                     .map((product) => (
                         <ProductCard

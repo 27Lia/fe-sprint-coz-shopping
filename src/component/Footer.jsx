@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyleFooter = styled.footer`
 .footer-container {
-    height: 58px;
+    height: 70px;
     border-top: 1px solid rgba(0, 0, 0, 0.10);
     font-size: 12px;
     padding: 11px 0px;

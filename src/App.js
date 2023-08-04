@@ -27,13 +27,13 @@ function App() {
   const data = response.data;
     // 'products' 상태를 검색한 데이터로 업데이트
   setProducts(data);
-  console.log(data)
   } catch (error) {
   // API 요청 중에 발생한 오류처리
   console.error('API 요청 중 오류가 발생했습니다:', error);
   }
   };
-  
+  console.log(products)
+
   // 컴포넌트가 마운트될 때 fetchProducts 함수를 실행
   fetchProducts();
   }, []);
