@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import ProductCard from "../component/ProductCard";
 import { styled } from "styled-components";
 import { useInView } from "react-intersection-observer";
-import axios from "axios";
-
+// import axios from "axios";
+import data from '../data.json'
 
 const StyleBookMark = styled.div`
     position:relative;
@@ -54,14 +54,20 @@ function BookMark({ products, toggleBookmark, openModal }) {
         }
     });
 
-    const fetchMoreProducts = async () => {
-        try {
-          await axios.get("http://cozshopping.codestates-seb.link/api/v1/products");
-        } catch (error) {
-          console.error("상품을 가져오는 데 에러 발생:", error);
-        }
-      };
+    // const fetchMoreProducts = async () => {
+    //     try {
+    //       await axios.get("http://cozshopping.codestates-seb.link/api/v1/products");
+    //     } catch (error) {
+    //       console.error("상품을 가져오는 데 에러 발생:", error);
+    //     }
+    //   };
+    const [localProducts, setLocalProducts] = useState(products)
 
+    const fetchMoreProducts = () => {
+        // 예: 더미 데이터의 첫 10개 상품을 가져오기 (더미 데이터의 구조나 요구 사항에 따라 수정될 수 있음)
+        const newProducts = data.users.slice(0, 10);
+        setLocalProducts(prevProducts => [...prevProducts, ...newProducts]);
+    };
     useEffect(()=>{
         if(inView) {
             fetchMoreProducts();

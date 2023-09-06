@@ -5,10 +5,10 @@ import Footer from "./component/Footer";
 import BookMark from "./page/BookMark";
 import ProductListPage from "./page/ProductListPage";
 import Header from "./component/Header";
-import axios from 'axios';
+// import axios from 'axios';
 import Modal from "./component/Modal";
 import Toast from "./component/Toast";
-
+import data from './data.json'
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -22,9 +22,9 @@ function App() {
   const fetchProducts = async () => {
   try {
   // 지정된 URL로 GET 요청을 보내고 응답을 기다림
-  const response = await axios.get('http://cozshopping.codestates-seb.link/api/v1/products');
+  // const response = await axios.get('http://cozshopping.codestates-seb.link/api/v1/products');
   // 응답에서 데이터를 추출
-  const data = response.data;
+  // const data = response.data;
     // 'products' 상태를 검색한 데이터로 업데이트
   setProducts(data);
   } catch (error) {

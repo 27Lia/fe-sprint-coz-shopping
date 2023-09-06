@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import ProductCard from "../component/ProductCard";
 import { styled } from "styled-components";
 import { useInView } from 'react-intersection-observer';
-import axios from 'axios';
+// import axios from 'axios';
+import data from '../data.json'
+console.log(data.users);
 
 const StyleProductList = styled.div`
     position:relative;
@@ -43,7 +45,10 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
     const [filterOption, setFilterOption] = useState("전체");
     const [ref, inView] = useInView();
 
-    const filterProduct = products.filter((product) => {
+    const [localProducts, setLocalProducts] = useState(products)
+
+
+    const filterProduct = localProducts.filter((product) => {
         if (filterOption === "전체") {
             return true; // 모든 상품을 보여줍니다.
         } else {
@@ -51,12 +56,18 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
         }
     });
 
-    const fetchMoreProducts = async () => {
-        try {
-            await axios.get("http://cozshopping.codestates-seb.link/api/v1/products");
-        }   catch (error) {
-            console.error("상품을 가져오는 데 에러 발생:", error);
-        }
+    // const fetchMoreProducts = async () => {
+    //     try {
+    //         await axios.get("http://cozshopping.codestates-seb.link/api/v1/products");
+    //     }   catch (error) {
+    //         console.error("상품을 가져오는 데 에러 발생:", error);
+    //     }
+    // };
+
+    const fetchMoreProducts = () => {
+        // 더미 데이터의 첫 10개 상품을 가져오기 
+        const newProducts = data.users.slice(0, 10);
+        setLocalProducts(prevProducts => [...prevProducts, ...newProducts]);
     };
 
     useEffect(() => {
