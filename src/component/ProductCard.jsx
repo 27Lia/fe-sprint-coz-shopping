@@ -74,6 +74,8 @@ function ProductCard({ product, toggleBookmark, openModal }) {
     } = product;
     
 
+    
+
     // 타입에 따라 다른 컴포넌트를 렌더링합니다.
     switch (type) {
         case "Product":

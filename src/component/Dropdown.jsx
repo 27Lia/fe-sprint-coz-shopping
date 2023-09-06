@@ -11,9 +11,7 @@ const StyleDropdown = styled.div`
     height: 150px;
     border-radius: 12px;
     background: whitesmoke ;
-    z-index:999;
-
-    
+    z-index:999; 
 } 
 
 
