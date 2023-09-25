@@ -43,9 +43,11 @@ const StyleBookMark = styled.div`
 
 
 function BookMark({ products, toggleBookmark, openModal }) {
-
+    const perPage = 10; // 한 번에 불러올 아이템 개수
     const [filterOption, setFilterOption] = useState("전체");
     const [ref, inView] = useInView();
+    const [localProducts, setLocalProducts] = useState(products)
+
     const filterProduct = products.filter((product) => {
         if (filterOption === "전체") {
             return true; // 모든 상품을 보여줍니다.
@@ -54,23 +56,17 @@ function BookMark({ products, toggleBookmark, openModal }) {
         }
     });
 
-    // const fetchMoreProducts = async () => {
-    //     try {
-    //       await axios.get("http://cozshopping.codestates-seb.link/api/v1/products");
-    //     } catch (error) {
-    //       console.error("상품을 가져오는 데 에러 발생:", error);
-    //     }
-    //   };
-    const [localProducts, setLocalProducts] = useState(products)
-
     const fetchMoreProducts = () => {
-        if (!data || !data.users) {
-            console.error("data or data.users is undefined!");
+        if (!Array.isArray(data)) {
+            console.error("data is not an array!");
             return;
         }
-        const newProducts = data.users.slice(0, 10);
+        const newStartIdx = localProducts.length;
+        const newProducts = data.slice(newStartIdx, newStartIdx + perPage);
+        if (newProducts.length === 0) return;
         setLocalProducts(prevProducts => [...prevProducts, ...newProducts]);
     };
+
     useEffect(()=>{
         if(inView) {
             fetchMoreProducts();
@@ -121,7 +117,6 @@ function BookMark({ products, toggleBookmark, openModal }) {
                 .slice(0,4).length ? (
                 filterProduct
                     .filter((product) => product.checked)
-                    .slice(0)
                     .map((product) => (
                         <ProductCard
                             key={product.id}
@@ -142,3 +137,10 @@ function BookMark({ products, toggleBookmark, openModal }) {
 }
 export default BookMark;
 
+    // const fetchMoreProducts = async () => {
+    //     try {
+    //       await axios.get("http://cozshopping.codestates-seb.link/api/v1/products");
+    //     } catch (error) {
+    //       console.error("상품을 가져오는 데 에러 발생:", error);
+    //     }
+    //   };

@@ -17,7 +17,6 @@ function App() {
   const [showToast, setShowToast] = useState(false); // 알림 표시 여부를 관리하는 상태
   const [message, setMessage] = useState(''); 
 
-
   useEffect(() => {
   const fetchProducts = async () => {
   try {
@@ -32,17 +31,11 @@ function App() {
   console.error('API 요청 중 오류가 발생했습니다:', error);
   }
   };
-  console.log(products)
-
   // 컴포넌트가 마운트될 때 fetchProducts 함수를 실행
   fetchProducts();
   }, []);
-
-
   
 const toggleBookmark = (item) => {
-  console.log(item);
-
   setProducts((prevProduct) =>
     prevProduct.map((product) => {
       if (product.id === item.id) {
@@ -50,7 +43,7 @@ const toggleBookmark = (item) => {
         setMessage(updataProduct.checked
         ? "상품이 북마크에 추가되었습니다."
         : "상품이 북마크에서 제거되었습니다.");
-        setShowToast(true);
+        setShowToast(true)
         setTimeout(()=>{
           setShowToast(false);
         },3000);
@@ -99,6 +92,7 @@ const closeModal = () => {
         <Footer />
         {modal && (
           <Modal
+          checked={products.some((product) => product.checked)}
             products={products}
             openModal={openModal}
             isOpen={modal}

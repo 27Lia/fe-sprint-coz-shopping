@@ -4,7 +4,6 @@ import { styled } from "styled-components";
 import { useInView } from 'react-intersection-observer'; // 무한스크롤 라이브러리
 // import axios from 'axios';
 import data from '../data.json'
-console.log(data.users);
 
 const StyleProductList = styled.div`
     position:relative;
@@ -43,11 +42,11 @@ const StyleProductList = styled.div`
 
 function ProductListPage({ products, toggleBookmark, openModal }) {
     const [filterOption, setFilterOption] = useState("전체");
-    const [ref, inView] = useInView();
-
     const [localProducts, setLocalProducts] = useState(products)
-
-
+    
+    const [ref, inView] = useInView();
+    const perPage = 10; // 한 번에 불러올 아이템 개수
+    
     const filterProduct = localProducts.filter((product) => {
         if (filterOption === "전체") {
             return true; // 모든 상품을 보여줍니다.
@@ -56,21 +55,18 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
         }
     });
 
-    // api 접근금지됨
-    // const fetchMoreProducts = async () => {
-    //     try {
-    //         await axios.get("http://cozshopping.codestates-seb.link/api/v1/products");
-    //     }   catch (error) {
-    //         console.error("상품을 가져오는 데 에러 발생함:", error);
-    //     }
-    // };
+    useEffect(() => {
+        setLocalProducts(products); // products prop이 변경되었을 때 localProducts 업데이트
+    }, [products]);
 
     const fetchMoreProducts = () => {
-        if (!data || !data.users) {
-            console.error("data or data.users is undefined!");
+        if (!Array.isArray(data)) {
+            console.error("data is not an array!");
             return;
         }
-        const newProducts = data.users.slice(0, 10);
+        const newStartIdx = localProducts.length;
+        const newProducts = data.slice(newStartIdx, newStartIdx + perPage);
+        if (newProducts.length === 0) return;
         setLocalProducts(prevProducts => [...prevProducts, ...newProducts]);
     };
 
@@ -120,7 +116,6 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
                 {/* filterProduct를 사용하여 필터링된 상품들만 렌더링 */}
                 {filterProduct
                     .filter((product) => !product.checked) 
-                    .slice(0)
                     .map((product) => (
                         <ProductCard
                             key={product.id}
@@ -138,3 +133,13 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
 }
 
 export default ProductListPage;
+
+
+    // api 접근금지됨
+    // const fetchMoreProducts = async () => {
+    //     try {
+    //         await axios.get("http://cozshopping.codestates-seb.link/api/v1/products");
+    //     }   catch (error) {
+    //         console.error("상품을 가져오는 데 에러 발생함:", error);
+    //     }
+    // };

@@ -34,7 +34,6 @@ h3 {
 
 
 function MainPage({ products, toggleBookmark, openModal}) {
-
     return (
         <StyleMainPage>
             <section>
