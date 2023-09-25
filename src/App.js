@@ -16,6 +16,7 @@ function App() {
   const [modalImage, setModalImage] = useState(''); // modalImage 상태 선언
   const [showToast, setShowToast] = useState(false); // 알림 표시 여부를 관리하는 상태
   const [message, setMessage] = useState(''); 
+  const [updataProduct, setUpdataProduct] = useState(); // 초기 상태
 
   useEffect(() => {
   const fetchProducts = async () => {
@@ -40,6 +41,7 @@ const toggleBookmark = (item) => {
     prevProduct.map((product) => {
       if (product.id === item.id) {
         const  updataProduct = { ...product, checked: !product.checked };
+        setUpdataProduct(updataProduct); // 업데이트된 상태를 설정
         setMessage(updataProduct.checked
         ? "상품이 북마크에 추가되었습니다."
         : "상품이 북마크에서 제거되었습니다.");
@@ -92,7 +94,6 @@ const closeModal = () => {
         <Footer />
         {modal && (
           <Modal
-          checked={products.some((product) => product.checked)}
             products={products}
             openModal={openModal}
             isOpen={modal}
@@ -103,7 +104,7 @@ const closeModal = () => {
         )}
          {showToast && (<Toast 
          message={message} 
-         checked={products.some((product) => product.checked)}
+         checked={updataProduct.checked} // 수정된 부분
          />
          )}
         </div>

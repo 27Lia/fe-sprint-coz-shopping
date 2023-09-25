@@ -1,3 +1,4 @@
+import React from "react";
 import { styled } from "styled-components";
 
 // 한개의 컴포넌트에 4개의 타입을 넣는 방식을 사용함 why? poroduct를 중복으로 계속 써주어야하기때문
@@ -60,7 +61,7 @@ function ProductCard({ product, toggleBookmark, openModal }) {
         title,
         brand_image_url,
         brand_name,
-        checked ,
+        checked = false,
         discountPercentage,
         follower,
         image_url,
@@ -68,8 +69,6 @@ function ProductCard({ product, toggleBookmark, openModal }) {
         sub_title,
         type,
     } = product;
-
-
 
     // 타입에 따라 다른 컴포넌트를 렌더링
     switch (type) {
