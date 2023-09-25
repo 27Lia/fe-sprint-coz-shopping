@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ProductCard from "../component/ProductCard";
 import { styled } from "styled-components";
-import { useInView } from 'react-intersection-observer';
+import { useInView } from 'react-intersection-observer'; // 무한스크롤 라이브러리
 // import axios from 'axios';
 import data from '../data.json'
 console.log(data.users);
@@ -52,15 +52,16 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
         if (filterOption === "전체") {
             return true; // 모든 상품을 보여줍니다.
         } else {
-            return product.type === filterOption; // 해당 카테고리 타입의 상품들만 보여줍니다.
+            return product.type === filterOption; // 해당 카테고리 타입의 상품들만 !!
         }
     });
 
+    // api 접근금지됨
     // const fetchMoreProducts = async () => {
     //     try {
     //         await axios.get("http://cozshopping.codestates-seb.link/api/v1/products");
     //     }   catch (error) {
-    //         console.error("상품을 가져오는 데 에러 발생:", error);
+    //         console.error("상품을 가져오는 데 에러 발생함:", error);
     //     }
     // };
 
@@ -113,7 +114,7 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
                 </ul>
             </nav>
             <main>
-                {/* filterProduct를 사용하여 필터링된 상품들만 렌더링합니다. */}
+                {/* filterProduct를 사용하여 필터링된 상품들만 렌더링 */}
                 {filterProduct
                     .filter((product) => !product.checked) 
                     .slice(0)

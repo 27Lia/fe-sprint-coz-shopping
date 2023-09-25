@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../component/ProductCard";
 import { styled } from "styled-components";
-import { useInView } from "react-intersection-observer";
+import { useInView } from "react-intersection-observer"; // 무한스크롤 라이브러리
 // import axios from "axios";
 import data from '../data.json'
 
@@ -64,7 +64,10 @@ function BookMark({ products, toggleBookmark, openModal }) {
     const [localProducts, setLocalProducts] = useState(products)
 
     const fetchMoreProducts = () => {
-        // 예: 더미 데이터의 첫 10개 상품을 가져오기 (더미 데이터의 구조나 요구 사항에 따라 수정될 수 있음)
+        if (!data || !data.users) {
+            console.error("data or data.users is undefined!");
+            return;
+        }
         const newProducts = data.users.slice(0, 10);
         setLocalProducts(prevProducts => [...prevProducts, ...newProducts]);
     };

@@ -57,9 +57,6 @@ height:264px;
 `
 
 function ProductCard({ product, toggleBookmark, openModal }) {
-
-
-
     const {
         title,
         brand_image_url,
@@ -72,11 +69,8 @@ function ProductCard({ product, toggleBookmark, openModal }) {
         sub_title,
         type,
     } = product;
-    
 
-    
-
-    // 타입에 따라 다른 컴포넌트를 렌더링합니다.
+    // 타입에 따라 다른 컴포넌트를 렌더링
     switch (type) {
         case "Product":
             return (
