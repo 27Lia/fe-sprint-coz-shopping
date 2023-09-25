@@ -55,7 +55,7 @@ function Header() {
             <img src="/images/mainLogo.png" alt="mainLogo" />
           </Link>
         </div>
-        <span className="logo-title">Coz-shopping</span>
+        <span className="logo-title">shopping</span>
       </div>
       <button onClick={handleDropdown}>
         <img className="hamburger-logo" src="/images/HeaderButton.svg" alt="HeaderButton" />

@@ -26,7 +26,7 @@ function Footer() {
         <StyleFooter>
         <footer className="footer-container">
             <span>개인정보 처리방침 | 이용 약관</span>
-            <span>All rights reserved @ Codestates</span>
+            <span>All rights reserved @ sunmi</span>
         </footer>
         </StyleFooter>
     )
