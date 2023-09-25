@@ -66,7 +66,10 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
     // };
 
     const fetchMoreProducts = () => {
-        // 더미 데이터의 첫 10개 상품을 가져오기 
+        if (!data || !data.users) {
+            console.error("data or data.users is undefined!");
+            return;
+        }
         const newProducts = data.users.slice(0, 10);
         setLocalProducts(prevProducts => [...prevProducts, ...newProducts]);
     };
