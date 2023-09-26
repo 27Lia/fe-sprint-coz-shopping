@@ -41,11 +41,15 @@ button {
   }
 `
 
-function Modal({ isOpen, closeModal, image, toggleBookmark, checked, products }) {
-  console.log(checked)
+function Modal({ isOpen, closeModal, image, toggleBookmark, updataProduct, products }) {
   if (!isOpen) return null;
     // products 배열을 product로 변경하는 로직 추가, products 배열에서 클릭한 이미지 URL과 일치하는 상품 객체를 찾아냄
     const product = products.find((item) => item.image_url === image || item.brand_image_url === image);
+
+  // updataProduct가 있고, updataProduct의 id가 현재 상품의 id와 일치하면 updataProduct의 checked 값을 사용하고,
+  // 그렇지 않다면 false
+    const checked = updataProduct?.id === product.id ? updataProduct.checked : false; 
+
   return (
     <ModalBackground onClick={closeModal}>
       <div className="modalcontent">

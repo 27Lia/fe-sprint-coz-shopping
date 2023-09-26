@@ -28,7 +28,6 @@ margin-right:8px;
 `
 
 function Toast({ message, checked }) {
-    console.log(checked); // 이 부분을 추가하여 checked 값을 확인
 
     return (
     <StyleToast>

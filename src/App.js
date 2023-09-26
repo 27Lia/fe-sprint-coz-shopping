@@ -16,7 +16,7 @@ function App() {
   const [modalImage, setModalImage] = useState(''); // modalImage 상태 선언
   const [showToast, setShowToast] = useState(false); // 알림 표시 여부를 관리하는 상태
   const [message, setMessage] = useState(''); 
-  const [updataProduct, setUpdataProduct] = useState(); // 초기 상태
+  const [updataProduct, setUpdataProduct] = useState(); 
 
   useEffect(() => {
   const fetchProducts = async () => {
@@ -93,7 +93,8 @@ const closeModal = () => {
         </Routes>
         <Footer />
         {modal && (
-          <Modal
+          <Modal  updataProduct={updataProduct} 
+
             products={products}
             openModal={openModal}
             isOpen={modal}
@@ -104,7 +105,7 @@ const closeModal = () => {
         )}
          {showToast && (<Toast 
          message={message} 
-         checked={updataProduct.checked} // 수정된 부분
+         checked={updataProduct.checked}
          />
          )}
         </div>
