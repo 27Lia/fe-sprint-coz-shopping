@@ -67,6 +67,7 @@ function Header() {
     try {
       await signOut(auth);
       dispatch(logout());
+      localStorage.removeItem("token");
 
       navigate("/login");
     } catch (error) {

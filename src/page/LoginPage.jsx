@@ -41,7 +41,16 @@ function LoginPage() {
     dispatch(login());
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      user.getIdToken().then((token) => {
+        localStorage.setItem("token", token);
+      });
       navigate("/");
     } catch (error) {
       console.error("로그인 에러:", error);

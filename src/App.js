@@ -11,9 +11,8 @@ import Toast from "./component/Toast";
 import data from './data.json'
 import LoginPage from "./page/LoginPage";
 import SignUpPage from "./page/SignUpPage";
-import { Provider } from 'react-redux';
-import store from "./store";
-
+import { useDispatch } from "react-redux";
+import { login } from "../src/redux";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -22,8 +21,16 @@ function App() {
   const [showToast, setShowToast] = useState(false); // 알림 표시 여부를 관리하는 상태
   const [message, setMessage] = useState('');
   const [updataProduct, setUpdataProduct] = useState();
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
 
+    if (token) {
+      // 로컬 스토리지에 토큰이 있으면 사용자를 로그인 상태로 설정
+      dispatch(login()); // 리덕스 액션을 디스패치하여 사용자를 로그인 상태로만듬
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -76,55 +83,51 @@ function App() {
   };
 
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <div className="app">
-          <Header />
-          <Routes>
-            <Route path="/"
-              element={<MainPage
-                products={products}
-                toggleBookmark={toggleBookmark}
-                openModal={openModal}
-              />} />
-            <Route path="/bookmark"
-              element={<BookMark
-                products={products}
-                toggleBookmark={toggleBookmark}
-                openModal={openModal}
-              />} />
-            <Route path="/products/list"
-              element={<ProductListPage
-                products={products}
-                toggleBookmark={toggleBookmark}
-                openModal={openModal}
-              />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-
-          </Routes>
-          <Footer />
-          {modal && (
-            <Modal updataProduct={updataProduct}
-
+    <BrowserRouter>
+      <div className="app">
+        <Header />
+        <Routes>
+          <Route path="/"
+            element={<MainPage
               products={products}
-              openModal={openModal}
-              isOpen={modal}
-              image={modalImage}
-              closeModal={closeModal}
               toggleBookmark={toggleBookmark}
-            />
-          )}
-          {showToast && (<Toast
-            message={message}
-            checked={updataProduct.checked}
+              openModal={openModal}
+            />} />
+          <Route path="/bookmark"
+            element={<BookMark
+              products={products}
+              toggleBookmark={toggleBookmark}
+              openModal={openModal}
+            />} />
+          <Route path="/products/list"
+            element={<ProductListPage
+              products={products}
+              toggleBookmark={toggleBookmark}
+              openModal={openModal}
+            />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+
+        </Routes>
+        <Footer />
+        {modal && (
+          <Modal updataProduct={updataProduct}
+
+            products={products}
+            openModal={openModal}
+            isOpen={modal}
+            image={modalImage}
+            closeModal={closeModal}
+            toggleBookmark={toggleBookmark}
           />
-          )}
-        </div>
-
-      </BrowserRouter>
-    </Provider>
-
+        )}
+        {showToast && (<Toast
+          message={message}
+          checked={updataProduct.checked}
+        />
+        )}
+      </div>
+    </BrowserRouter>
   )
 }
 export default App;
