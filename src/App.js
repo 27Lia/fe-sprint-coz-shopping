@@ -11,6 +11,8 @@ import Toast from "./component/Toast";
 import data from './data.json'
 import LoginPage from "./page/LoginPage";
 import SignUpPage from "./page/SignUpPage";
+import { Provider } from 'react-redux';
+import store from "./store";
 
 
 function App() {
@@ -74,52 +76,54 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <div className="app">
-        <Header />
-        <Routes>
-          <Route path="/"
-            element={<MainPage
-              products={products}
-              toggleBookmark={toggleBookmark}
-              openModal={openModal}
-            />} />
-          <Route path="/bookmark"
-            element={<BookMark
-              products={products}
-              toggleBookmark={toggleBookmark}
-              openModal={openModal}
-            />} />
-          <Route path="/products/list"
-            element={<ProductListPage
-              products={products}
-              toggleBookmark={toggleBookmark}
-              openModal={openModal}
-            />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
+    <Provider store={store}>
+      <BrowserRouter>
+        <div className="app">
+          <Header />
+          <Routes>
+            <Route path="/"
+              element={<MainPage
+                products={products}
+                toggleBookmark={toggleBookmark}
+                openModal={openModal}
+              />} />
+            <Route path="/bookmark"
+              element={<BookMark
+                products={products}
+                toggleBookmark={toggleBookmark}
+                openModal={openModal}
+              />} />
+            <Route path="/products/list"
+              element={<ProductListPage
+                products={products}
+                toggleBookmark={toggleBookmark}
+                openModal={openModal}
+              />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
 
-        </Routes>
-        <Footer />
-        {modal && (
-          <Modal updataProduct={updataProduct}
+          </Routes>
+          <Footer />
+          {modal && (
+            <Modal updataProduct={updataProduct}
 
-            products={products}
-            openModal={openModal}
-            isOpen={modal}
-            image={modalImage}
-            closeModal={closeModal}
-            toggleBookmark={toggleBookmark}
+              products={products}
+              openModal={openModal}
+              isOpen={modal}
+              image={modalImage}
+              closeModal={closeModal}
+              toggleBookmark={toggleBookmark}
+            />
+          )}
+          {showToast && (<Toast
+            message={message}
+            checked={updataProduct.checked}
           />
-        )}
-        {showToast && (<Toast
-          message={message}
-          checked={updataProduct.checked}
-        />
-        )}
-      </div>
+          )}
+        </div>
 
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
 
   )
 }

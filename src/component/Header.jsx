@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import Dropdown from "./Dropdown";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
+import { logout } from "../redux";
+import StyledButton from "../component/Button";
 const StyleHeader = styled.header`
   background: #fff;
   padding: 25px 76px;
@@ -32,11 +36,11 @@ const StyleHeader = styled.header`
 
   button {
     border: none;
-    background-color: transparent;
-    color: #000;
+    color: #fff;
   }
   .login-container {
     display: flex;
+    margin-right: 20px;
   }
 
   .login-box,
@@ -45,14 +49,6 @@ const StyleHeader = styled.header`
     justify-content: center;
     align-items: center;
     margin-right: 20px;
-    width: 80px;
-    padding: 5px;
-    border: 1px solid #412dd4;
-    border-radius: 5px;
-    cursor: pointer;
-    &:hover {
-      background-color: #6656df;
-    }
   }
 `;
 
@@ -61,6 +57,21 @@ function Header() {
 
   const handleDropdown = () => {
     setDropdown(!dropdown);
+  };
+
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      dispatch(logout());
+
+      navigate("/login");
+    } catch (error) {
+      console.error("로그아웃 에러", error);
+    }
   };
 
   return (
@@ -74,16 +85,23 @@ function Header() {
         <span className="logo-title">shopping</span>
       </div>
       <div className="login-container">
-        <div className="login-box">
-          <Link to="/login">
-            <div className="login-text">로그인</div>
-          </Link>
-        </div>
-        <div className="signup-box">
-          <Link to="/signup">
-            <div className="signup-text">회원가입</div>
-          </Link>
-        </div>
+        {/* isLoggedIn 값에 따라 버튼 표시 여부 결정 */}
+        {isLoggedIn ? (
+          <StyledButton onClick={handleLogout}>로그아웃</StyledButton>
+        ) : (
+          <>
+            <div className="login-box">
+              <Link to="/login">
+                <StyledButton>로그인</StyledButton>
+              </Link>
+            </div>
+            <div className="signup-box">
+              <Link to="/signup">
+                <StyledButton>회원가입</StyledButton>
+              </Link>
+            </div>
+          </>
+        )}
       </div>
       <button onClick={handleDropdown}>
         <img

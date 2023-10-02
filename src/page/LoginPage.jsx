@@ -3,6 +3,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { login } from "../redux";
+import StyledButton from "../component/Button";
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -21,18 +24,6 @@ const StyledInput = styled.input`
   font-size: 20px;
 `;
 
-const StyledButton = styled.button`
-  padding: 10px 30px;
-  background-color: #412dd4;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  &:hover {
-    background-color: #5b4adb;
-  }
-`;
-
 const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -43,9 +34,11 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    dispatch(login());
 
     try {
       await signInWithEmailAndPassword(auth, email, password);

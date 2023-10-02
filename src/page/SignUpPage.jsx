@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { styled } from "styled-components";
+import StyledButton from "../component/Button";
 
 const SignUpContainer = styled.div`
   display: flex;
@@ -22,17 +23,6 @@ const StyledInput = styled.input`
   font-size: 20px;
 `;
 
-const StyledButton = styled.button`
-  padding: 10px 30px;
-  background-color: #412dd4;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  &:hover {
-    background-color: #5b4adb;
-  }
-`;
 const SignUpForm = styled.form`
   display: flex;
   flex-direction: column;
