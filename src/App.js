@@ -9,6 +9,8 @@ import Header from "./component/Header";
 import Modal from "./component/Modal";
 import Toast from "./component/Toast";
 import data from './data.json'
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -17,6 +19,27 @@ function App() {
   const [showToast, setShowToast] = useState(false); // 알림 표시 여부를 관리하는 상태
   const [message, setMessage] = useState(''); 
   const [updataProduct, setUpdataProduct] = useState(); 
+
+  // Import the functions you need from the SDKs you need
+
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCyiLhsrtlfZEMnj_iM4vBdxvyQNLTTZdY",
+  authDomain: "shopping-81d56.firebaseapp.com",
+  projectId: "shopping-81d56",
+  storageBucket: "shopping-81d56.appspot.com",
+  messagingSenderId: "713325930032",
+  appId: "1:713325930032:web:d0c9e60fc947d7ae17eff5",
+  measurementId: "G-ZNH24ESSVR"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
   useEffect(() => {
   const fetchProducts = async () => {
