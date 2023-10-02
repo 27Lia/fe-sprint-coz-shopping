@@ -10,35 +10,31 @@ const StyleHeader = styled.header`
   align-items: center;
   background: #fff;
   box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.1);
-  width:100%;
-  position:fixed;
-  z-index:1;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1;
 
-.logo-container {
-  display: flex;
-  flex:1;
-}
+  .logo-container {
+    display: flex;
+    flex: 1;
+  }
 
-.logo-title {
+  .logo-title {
     font-size: 2rem;
     font-weight: bold;
     margin-left: 12px;
-}
+  }
 
-img {
+  img {
     cursor: pointer;
-}
+  }
 
-
-button {
+  button {
     border: none;
     background-color: transparent;
-}
+  }
 `;
-
-
-
-
 
 function Header() {
   const [dropdown, setDropdown] = useState(false);
@@ -51,18 +47,21 @@ function Header() {
     <StyleHeader>
       <div className="logo-container">
         <div className="logo-img">
-          <Link to='/'>
+          <Link to="/">
             <img src="/images/mainLogo.png" alt="mainLogo" />
           </Link>
         </div>
         <span className="logo-title">shopping</span>
       </div>
       <button onClick={handleDropdown}>
-        <img className="hamburger-logo" src="/images/HeaderButton.svg" alt="HeaderButton" />
+        <img
+          className="hamburger-logo"
+          src="/images/HeaderButton.svg"
+          alt="HeaderButton"
+        />
       </button>
       {/* 레이아웃 방해를 받기 때문에 Dropdown 컴포넌트를 header-continer 요소 외부에 렌더링함  */}
       {dropdown && <Dropdown />}
-
     </StyleHeader>
   );
 }
