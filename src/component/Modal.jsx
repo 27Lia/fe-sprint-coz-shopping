@@ -49,7 +49,6 @@ function Modal({ isOpen, closeModal, image, toggleBookmark, updataProduct, produ
   // updataProduct가 있고, updataProduct의 id가 현재 상품의 id와 일치하면 updataProduct의 checked 값을 사용하고,
   // 그렇지 않다면 false
     const checked = updataProduct?.id === product.id ? updataProduct.checked : false; 
-
   return (
     <ModalBackground onClick={closeModal}>
       <div className="modalcontent">
