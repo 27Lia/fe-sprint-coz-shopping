@@ -89,16 +89,6 @@ function Dropdown({ handleDropdown }) {
               <span className="dropdown-text">북마크 페이지</span>
             </Link>
           </li>
-          <li className="list-box">
-            <Link to="/login" onClick={handleDropdown}>
-              <img
-                className="icon"
-                src="/images/bookmark.svg"
-                alt="로그인 아이콘"
-              ></img>{" "}
-              <span className="dropdown-text">로그인</span>
-            </Link>
-          </li>
         </ul>
       </div>
     </StyleDropdown>

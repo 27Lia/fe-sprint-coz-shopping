@@ -10,6 +10,7 @@ import Modal from "./component/Modal";
 import Toast from "./component/Toast";
 import data from './data.json'
 import LoginPage from "./page/LoginPage";
+import SignUpPage from "./page/SignUpPage";
 
 
 function App() {
@@ -96,6 +97,8 @@ function App() {
               openModal={openModal}
             />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+
         </Routes>
         <Footer />
         {modal && (

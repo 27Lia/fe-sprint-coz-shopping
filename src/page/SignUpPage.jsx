@@ -1,9 +1,10 @@
-import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-const LoginContainer = styled.div`
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { styled } from "styled-components";
+
+const SignUpContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,32 +33,28 @@ const StyledButton = styled.button`
     background-color: #5b4adb;
   }
 `;
-
-const LoginForm = styled.form`
+const SignUpForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
-
-function LoginPage() {
+function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
+  const handleSignUp = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
+      await createUserWithEmailAndPassword(auth, email, password);
+      navigate("/login");
     } catch (error) {
-      console.error("로그인 에러:", error);
+      console.error("회원가입 에러:", error);
     }
   };
 
   return (
-    <LoginForm onSubmit={handleLogin}>
-      <LoginContainer>
+    <SignUpForm onSubmit={handleSignUp}>
+      <SignUpContainer>
         <StyledInput
           type="email"
           placeholder="Email"
@@ -70,10 +67,10 @@ function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <StyledButton>로그인</StyledButton>
-      </LoginContainer>
-    </LoginForm>
+        <StyledButton>회원가입</StyledButton>
+      </SignUpContainer>
+    </SignUpForm>
   );
 }
 
-export default LoginPage;
+export default SignUpPage;

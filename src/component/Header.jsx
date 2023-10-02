@@ -33,6 +33,26 @@ const StyleHeader = styled.header`
   button {
     border: none;
     background-color: transparent;
+    color: #000;
+  }
+  .login-container {
+    display: flex;
+  }
+
+  .login-box,
+  .signup-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+    width: 80px;
+    padding: 5px;
+    border: 1px solid #412dd4;
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+      background-color: #6656df;
+    }
   }
 `;
 
@@ -53,6 +73,18 @@ function Header() {
         </div>
         <span className="logo-title">shopping</span>
       </div>
+      <div className="login-container">
+        <div className="login-box">
+          <Link to="/login">
+            <div className="login-text">로그인</div>
+          </Link>
+        </div>
+        <div className="signup-box">
+          <Link to="/signup">
+            <div className="signup-text">회원가입</div>
+          </Link>
+        </div>
+      </div>
       <button onClick={handleDropdown}>
         <img
           className="hamburger-logo"
@@ -60,6 +92,7 @@ function Header() {
           alt="HeaderButton"
         />
       </button>
+
       {/* 레이아웃 방해를 받기 때문에 Dropdown 컴포넌트를 header-continer 요소 외부에 렌더링함  */}
       {dropdown && <Dropdown />}
     </StyleHeader>
