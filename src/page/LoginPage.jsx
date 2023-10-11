@@ -38,7 +38,6 @@ function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    dispatch(login());
 
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -47,14 +46,13 @@ function LoginPage() {
         password
       );
       const user = userCredential.user;
+      dispatch(login());
 
-      user.getIdToken().then((token) => {
-        localStorage.setItem("token", token);
-      });
       navigate("/");
     } catch (error) {
       console.error("로그인 에러:", error);
     }
+    
   };
 
   return (

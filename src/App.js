@@ -11,8 +11,7 @@ import Toast from "./component/Toast";
 import data from './data.json'
 import LoginPage from "./page/LoginPage";
 import SignUpPage from "./page/SignUpPage";
-import { useDispatch } from "react-redux";
-import { login } from "../src/redux";
+
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -21,16 +20,6 @@ function App() {
   const [showToast, setShowToast] = useState(false); // 알림 표시 여부를 관리하는 상태
   const [message, setMessage] = useState('');
   const [updataProduct, setUpdataProduct] = useState();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      // 로컬 스토리지에 토큰이 있으면 사용자를 로그인 상태로 설정
-      dispatch(login()); // 리덕스 액션을 디스패치하여 사용자를 로그인 상태로만듬
-    }
-  }, [dispatch]);
 
   useEffect(() => {
     const fetchProducts = async () => {
