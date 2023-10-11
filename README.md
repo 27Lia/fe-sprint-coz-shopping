@@ -41,12 +41,10 @@
 - 사용자가 북마크 한 상품 들을 확인할 수 있는 페이지로 무한 스크롤이 가능해야 한다.
 - 상품리스트 페이지에 존재하는 필터링 버튼과 같은 버튼을 이용해 상품을 타입별로 필터해 보여줄 수 있어야 한다.
 
-## API
 
 ---
-
-- Swagger API 문서
-    - http://cozshopping.codestates-seb.link/api-docs/ ****
-
+로그인
+ID: test@gmail.com
+PW: test1234!
 
 
