@@ -40,7 +40,7 @@ const StyleHeader = styled.header`
   }
   .login-container {
     display: flex;
-    margin-right: 20px;
+    margin: 0px 20px;
   }
 
   .login-box,
@@ -84,6 +84,11 @@ function Header() {
         </div>
         <span className="logo-title">shopping</span>
       </div>
+
+      <Link to="/board">
+        <StyledButton>게시판</StyledButton>
+      </Link>
+
       <div className="login-container">
         {/* isLoggedIn 값에 따라 버튼 표시 여부 결정 */}
         {isLoggedIn ? (

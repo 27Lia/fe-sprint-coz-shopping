@@ -11,6 +11,8 @@ import Toast from "./component/Toast";
 import data from './data.json'
 import LoginPage from "./page/LoginPage";
 import SignUpPage from "./page/SignUpPage";
+import BoardPage from "./page/BoardPage";
+import CreatePostPage from "./page/CreatePostPage";
 
 
 function App() {
@@ -96,12 +98,13 @@ function App() {
             />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/board" element={<BoardPage />} />
+          <Route path="/board/create" element={<CreatePostPage />} />
 
         </Routes>
         <Footer />
         {modal && (
           <Modal updataProduct={updataProduct}
-
             products={products}
             openModal={openModal}
             isOpen={modal}
