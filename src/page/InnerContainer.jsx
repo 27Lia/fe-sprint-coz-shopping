@@ -6,6 +6,7 @@ const InnerContainer = styled.div`
   margin: 0 auto;
   position: relative;
   top: 150px;
+  height:100vh;
 `;
 
 export default InnerContainer;

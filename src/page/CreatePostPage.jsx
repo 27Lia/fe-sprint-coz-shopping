@@ -1,38 +1,40 @@
 import React, { useState } from "react";
 import { db, auth } from "../firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import StyledButton from "../component/Button";
-import { useSelector } from "react-redux";
+import InnerContainer from "./InnerContainer";
 
-const CreatePostContainer = styled.div`
+const PostContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  gap: 15px;
-  height: 100vh;
-  justify-content: center;
-`;
-
-const PostForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 500px;
+  gap: 20px;
+  border-radius: 10px;
   border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 5px;
-`;
-
-const StyledInput = styled.input`
-  margin-bottom: 10px;
-  padding: 15px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
+  height: 70vh;
   width: 100%;
-  font-size: 20px;
+`;
+
+const BaseInput = styled.textarea`
+  margin-bottom: 15px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #dee2e6;
+  width: 100%;
+  font-size: 18px;
+  height: 40vh;
+`;
+
+const TitleInput = styled(BaseInput)`
+  height: 10vh;
+`;
+
+const PostButton = styled(StyledButton)`
+  margin: 0 10px;
 `;
 
 function CreatePostPage() {
@@ -54,28 +56,29 @@ function CreatePostPage() {
       title,
       content,
       authorId: currentUser.uid,
+      createdAt: serverTimestamp(),
     });
     navigate("/board");
   };
 
   return (
-    <CreatePostContainer>
-      <PostForm onSubmit={handlePostSubmit}>
-        <StyledInput
+    <InnerContainer>
+      <PostContainer>
+        <TitleInput
           type="text"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <StyledInput
+        <BaseInput
           type="text"
           placeholder="Content"
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
-        <StyledButton type="submit">문의하기</StyledButton>
-      </PostForm>
-    </CreatePostContainer>
+        <PostButton onClick={handlePostSubmit}>문의하기</PostButton>
+      </PostContainer>
+    </InnerContainer>
   );
 }
 

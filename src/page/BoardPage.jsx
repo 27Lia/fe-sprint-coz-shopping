@@ -1,48 +1,78 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { collection, getDocs} from "firebase/firestore";
+import { collection, getDocs, query, orderBy } from "firebase/firestore"; // query와 orderBy 임포트
 import styled from "styled-components";
 import StyledButton from "../component/Button";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
+import InnerContainer from "./InnerContainer";
 
 const BoardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 20px;
-  gap: 15px;
-  height: 100vh;
-  background-color: whitesmoke;
-  justify-content: center;
+
+`;
+
+const Title = styled.h1`
+  text-align: center;
+  margin-bottom: 20px;
 `;
 
 const PostList = styled.ul`
-  list-style-type: none;
   padding: 0;
-  width: 500px;
+  margin: 0 auto;
+  max-width: 800px;
 `;
 
 const PostItem = styled.li`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  background-color: #ffffff;
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 20px;
   border-radius: 5px;
   margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  h3 {
+    max-height:3vh;
+    overflow: auto;
+
+  }
+  &:hover {
+    background-color: #f1f1f1;
+  }
 `;
 
 const PageNavigation = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  margin-bottom:60px;
 `;
 
 const PageButton = styled.button`
   margin: 0 5px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #008CBA;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #005f5f;
+  }
 `;
+
+const CreateButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+`;
+
 
 function BoardPage() {
   const [posts, setPosts] = useState([]);
@@ -51,33 +81,24 @@ function BoardPage() {
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
 
+
   const fetchPosts = async () => {
     const postCollection = collection(db, "posts");
-    const postSnapshot = await getDocs(postCollection);
+    const q = query(postCollection, orderBy("createdAt", "desc")); 
+    const postSnapshot = await getDocs(q);
     const postList = postSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
     setPosts(postList);
   };
+  
+
+
 
   useEffect(() => {
     fetchPosts();
   }, []);
-
-  const handleDelete = async (id, authorId) => {
-    if (!isLoggedIn) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-    const currentUser = auth.currentUser;
-    if (!currentUser) return;
-  
-    if (currentUser.uid !== authorId) {  // 작성자 확인
-      alert("본인의 게시물만 삭제할 수 있습니다.");
-      return;
-    }
-  }
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -88,22 +109,36 @@ function BoardPage() {
     pageNumbers.push(i);
   }
 
+  const handlePostClick = (postId) => {
+    navigate(`/board/${postId}`);  // 게시글 ID를 사용하여 게시글 세부 정보 페이지로 이동
+  };
+
+  const handleCreatePostClick = () => {
+    if (!isLoggedIn) {
+      alert("로그인이 필요합니다.");  // 로그인하지 않은 경우 알림 표시
+      return;
+    }
+    navigate("/board/create");  // 로그인한 경우 문의 작성 페이지로 이동
+  };
+
   return (
+    <InnerContainer>
     <BoardContainer>
+    <Title>문의 게시판</Title>
       <PostList>
         {currentPosts.map((post) => (
-          <PostItem key={post.id}>
-            <h3>{post.title}</h3>
-            {/* <p>{post.content}</p> */}
-            <StyledButton onClick={() => handleDelete(post.id, post.authorId)}>
-              Delete
-            </StyledButton>
+          <PostItem key={post.id} onClick={() => handlePostClick(post.id)}>
+          <h3>{post.title}</h3>
           </PostItem>
         ))}
       </PostList>
-      <StyledButton onClick={() => navigate("/board/create")}>
-        문의하기
-      </StyledButton>
+      <div className="btn-box">
+      <CreateButtonContainer>
+          <StyledButton onClick={handleCreatePostClick}>
+            문의하기
+          </StyledButton>
+        </CreateButtonContainer>
+      </div>
       <PageNavigation>
         {pageNumbers.map(number => (
           <PageButton key={number} onClick={() => setCurrentPage(number)}>
@@ -112,6 +147,7 @@ function BoardPage() {
         ))}
       </PageNavigation>
     </BoardContainer>
+    </InnerContainer>
   );
 }
 

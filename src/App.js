@@ -13,6 +13,7 @@ import LoginPage from "./page/LoginPage";
 import SignUpPage from "./page/SignUpPage";
 import BoardPage from "./page/BoardPage";
 import CreatePostPage from "./page/CreatePostPage";
+import PostDetailPage from "./page/PostDetailPage";
 
 
 function App() {
@@ -100,7 +101,7 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/board" element={<BoardPage />} />
           <Route path="/board/create" element={<CreatePostPage />} />
-
+          <Route path="/board/:postId" element={<PostDetailPage />} />
         </Routes>
         <Footer />
         {modal && (
