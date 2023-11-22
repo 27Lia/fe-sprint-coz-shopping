@@ -6,7 +6,7 @@ import storage from "redux-persist/lib/storage";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["data"], // Redux Persist에 저장할 리듀서 지정
+  whitelist: ["isLoggedIn", "data"], // 영속화할 상태 지정
 };
 
 const persistedReducer = persistReducer(persistConfig, userReducer);
