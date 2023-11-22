@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import ProductCard from "../component/ProductCard";
 import { styled } from "styled-components";
-import { useInView } from "react-intersection-observer"; // 무한스크롤 라이브러리
+import { useInView } from "react-intersection-observer";
 import data from "../data.json";
 import InnerContainer from "./InnerContainer";
+import { updateData } from "../redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const StyleProductList = styled.div`
   nav {
@@ -35,41 +37,35 @@ const StyleProductList = styled.div`
   }
 `;
 
-function ProductListPage({ products, toggleBookmark, openModal }) {
+function ProductListPage({ toggleBookmark, openModal }) {
   const [filterOption, setFilterOption] = useState("전체");
-  const [localProducts, setLocalProducts] = useState(products);
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.data); // 스토어에서 products 가져오기
 
   const [ref, inView] = useInView();
   const perPage = 10; // 한 번에 불러올 아이템 개수
 
-  const filterProduct = localProducts.filter((product) => {
+  const filterProduct = products.filter((product) => {
     if (filterOption === "전체") {
-      return true; // 모든 상품을 보여줍니다.
+      return !product.checked; // 북마크 되지 않은 상품만 필터링
     } else {
-      return product.type === filterOption; // 해당 카테고리 타입의 상품들만 !!
+      return product.type === filterOption && !product.checked; // 북마크 되지 않은 특정 타입의 상품 필터링
     }
   });
 
-  useEffect(() => {
-    setLocalProducts(products); // products prop이 변경되었을 때 localProducts 업데이트
-  }, [products]);
-
   const fetchMoreProducts = () => {
-    if (!Array.isArray(data)) {
-      console.error("data is not an array!");
-      return;
-    }
-    const newStartIdx = localProducts.length;
+    // Redux 스토어에서 데이터를 사용하여 새로운 상품을 로드하는 로직으로 변경
+    const newStartIdx = products.length;
     const newProducts = data.slice(newStartIdx, newStartIdx + perPage);
     if (newProducts.length === 0) return;
-    setLocalProducts((prevProducts) => [...prevProducts, ...newProducts]);
+    dispatch(updateData([...products, ...newProducts])); // 스토어 업데이트
   };
 
   useEffect(() => {
     if (inView) {
       fetchMoreProducts();
     }
-  }, [inView]);
+  }, [inView, products]);
 
   return (
     <InnerContainer>
@@ -117,16 +113,14 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
         </nav>
         <main>
           {/* filterProduct를 사용하여 필터링된 상품들만 렌더링 */}
-          {filterProduct
-            .filter((product) => !product.checked)
-            .map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                toggleBookmark={toggleBookmark}
-                openModal={openModal}
-              />
-            ))}
+          {filterProduct.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              toggleBookmark={toggleBookmark}
+              openModal={openModal}
+            />
+          ))}
         </main>
         <div className="blank" ref={ref}></div>
       </StyleProductList>
@@ -135,4 +129,3 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
 }
 
 export default ProductListPage;
-

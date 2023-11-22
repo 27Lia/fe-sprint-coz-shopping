@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import ProductCard from "../component/ProductCard";
 import { styled } from "styled-components";
 import { useInView } from "react-intersection-observer"; // 무한스크롤 라이브러리
-import data from "../data.json";
 import InnerContainer from "./InnerContainer";
+import { useDispatch, useSelector } from "react-redux"; // Redux 훅 사용
+import { updateData } from "../redux"; // Redux 액션 임포트
 
 const StyleBookMark = styled.div`
   nav {
@@ -35,35 +36,34 @@ const StyleBookMark = styled.div`
   }
 `;
 
-function BookMark({ products, toggleBookmark, openModal }) {
+function BookMark({ toggleBookmark, openModal }) {
   const perPage = 10; // 한 번에 불러올 아이템 개수
   const [filterOption, setFilterOption] = useState("전체");
   const [ref, inView] = useInView();
-  const [localProducts, setLocalProducts] = useState(products);
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.data); // Redux 스토어에서 데이터 가져오기
 
   const filterProduct = products.filter((product) => {
-    if (filterOption === "전체") {
-      return true; // 모든 상품을 보여줍니다.
-    } else {
-      return product.type === filterOption; // 해당 카테고리 타입의 상품들만 보여줍니다.
-    }
+    // 북마크된 상품들만 필터링
+    return (
+      product.checked &&
+      (filterOption === "전체" || product.type === filterOption)
+    );
   });
 
   const fetchMoreProducts = () => {
-    if (!Array.isArray(data)) {
-      return;
-    }
-    const newStartIdx = localProducts.length;
-    const newProducts = data.slice(newStartIdx, newStartIdx + perPage);
+    const currentProductCount = products.length; // Redux 스토어의 상품 개수를 사용
+    const newStartIdx = currentProductCount;
+    const newProducts = products.slice(newStartIdx, newStartIdx + perPage);
     if (newProducts.length === 0) return;
-    setLocalProducts((prevProducts) => [...prevProducts, ...newProducts]);
+    dispatch(updateData([...products, ...newProducts]));
   };
 
   useEffect(() => {
     if (inView) {
       fetchMoreProducts();
     }
-  }, [inView]);
+  }, [inView, products]);
 
   return (
     <InnerContainer>
@@ -110,18 +110,15 @@ function BookMark({ products, toggleBookmark, openModal }) {
           </ul>
         </nav>
         <main>
-          {filterProduct.filter((product) => product.checked).slice(0, 4)
-            .length ? (
-            filterProduct
-              .filter((product) => product.checked)
-              .map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  toggleBookmark={toggleBookmark}
-                  openModal={openModal}
-                />
-              ))
+          {filterProduct.length ? (
+            filterProduct.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                toggleBookmark={toggleBookmark}
+                openModal={openModal}
+              />
+            ))
           ) : (
             <h4>북마크된 항목이 존재하지 않습니다</h4>
           )}
@@ -132,4 +129,3 @@ function BookMark({ products, toggleBookmark, openModal }) {
   );
 }
 export default BookMark;
-
