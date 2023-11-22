@@ -28,7 +28,7 @@ margin-right:8px;
 `
 
 function Toast({ message, checked }) {
-
+console.log(checked)
     return (
     <StyleToast>
         <div className='message-box'>

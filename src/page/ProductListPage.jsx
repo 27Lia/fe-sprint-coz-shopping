@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import ProductCard from "../component/ProductCard";
 import { styled } from "styled-components";
 import { useInView } from "react-intersection-observer"; // 무한스크롤 라이브러리
-// import axios from 'axios';
 import data from "../data.json";
 import InnerContainer from "./InnerContainer";
 
@@ -137,11 +136,3 @@ function ProductListPage({ products, toggleBookmark, openModal }) {
 
 export default ProductListPage;
 
-// api 접근금지됨
-// const fetchMoreProducts = async () => {
-//     try {
-//         await axios.get("http://cozshopping.codestates-seb.link/api/v1/products");
-//     }   catch (error) {
-//         console.error("상품을 가져오는 데 에러 발생함:", error);
-//     }
-// };

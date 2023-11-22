@@ -6,6 +6,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { login } from "../redux";
 import StyledButton from "../component/Button";
+
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -51,8 +52,8 @@ function LoginPage() {
       navigate("/");
     } catch (error) {
       console.error("로그인 에러:", error);
+      alert("아이디 및 비밀번호가 틀렸습니다.");
     }
-    
   };
 
   return (

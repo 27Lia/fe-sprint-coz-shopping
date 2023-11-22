@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import ProductCard from "../component/ProductCard";
 import { styled } from "styled-components";
 import { useInView } from "react-intersection-observer"; // 무한스크롤 라이브러리
-// import axios from "axios";
 import data from "../data.json";
 import InnerContainer from "./InnerContainer";
 
@@ -52,7 +51,6 @@ function BookMark({ products, toggleBookmark, openModal }) {
 
   const fetchMoreProducts = () => {
     if (!Array.isArray(data)) {
-      console.error("data is not an array!");
       return;
     }
     const newStartIdx = localProducts.length;
@@ -135,10 +133,3 @@ function BookMark({ products, toggleBookmark, openModal }) {
 }
 export default BookMark;
 
-// const fetchMoreProducts = async () => {
-//     try {
-//       await axios.get("http://cozshopping.codestates-seb.link/api/v1/products");
-//     } catch (error) {
-//       console.error("상품을 가져오는 데 에러 발생:", error);
-//     }
-//   };
