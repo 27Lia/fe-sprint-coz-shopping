@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 
 // 한개의 컴포넌트에 4개의 타입을 넣는 방식을 사용함 why? poroduct를 중복으로 계속 써주어야하기때문
@@ -67,6 +69,24 @@ function ProductCard({ product, toggleBookmark, openModal }) {
     sub_title,
     type,
   } = product;
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const navigate = useNavigate();
+
+  // 별모양 이미지를 눌렀을 때 실행될 함수
+  const handleStarClick = (e) => {
+    if (!isLoggedIn) {
+      // 로그인되어 있지 않으면 알림 표시 및 로그인 페이지로 이동
+      alert("로그인이 필요합니다.");
+      navigate("/login"); // 로그인 페이지로 이동
+      return;
+    }
+
+    // 로그인된 상태에서는 북마크 토글 동작 수행
+    toggleBookmark(product);
+
+    // 이벤트 전파 방지
+    e.stopPropagation();
+  };
 
   // 타입에 따라 다른 컴포넌트를 렌더링
   switch (type) {
@@ -81,7 +101,9 @@ function ProductCard({ product, toggleBookmark, openModal }) {
               alt="Product"
             />
             <img
-              onClick={() => toggleBookmark(product)} // product 객체가 toggleBookmark 함수의 item 매개변수로 전달
+              onClick={(e) => {
+                handleStarClick(e);
+              }}
               className="star"
               src={
                 checked
@@ -112,7 +134,9 @@ function ProductCard({ product, toggleBookmark, openModal }) {
               alt="Product-img"
             />
             <img
-              onClick={() => toggleBookmark(product)}
+              onClick={(e) => {
+                handleStarClick(e);
+              }}
               className="star"
               src={
                 checked
@@ -138,7 +162,9 @@ function ProductCard({ product, toggleBookmark, openModal }) {
               alt="Product img"
             />
             <img
-              onClick={() => toggleBookmark(product)}
+              onClick={(e) => {
+                handleStarClick(e);
+              }}
               className="star"
               src={
                 checked
@@ -165,7 +191,9 @@ function ProductCard({ product, toggleBookmark, openModal }) {
               alt="brand img"
             />
             <img
-              onClick={() => toggleBookmark(product)}
+              onClick={(e) => {
+                handleStarClick(e);
+              }}
               className="star"
               src={
                 checked
