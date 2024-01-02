@@ -8,7 +8,7 @@ import { login } from "../redux";
 import StyledButton from "../component/Button";
 import { Firestore, collection, doc, getDoc } from "firebase/firestore";
 import { updateData } from "../redux";
-import { getFirestore } from "firebase/firestore"; // Firestore를 가져오기 위한 import 추가
+import { getFirestore } from "firebase/firestore";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -64,22 +64,17 @@ function LoginPage() {
 
   const fetchUserBookmarks = async (userId) => {
     try {
-      // Firestore 인스턴스를 가져옵니다.
       const firestore = getFirestore();
 
-      // "bookmarks" 컬렉션과 사용자 문서에 대한 참조를 만듭니다.
       const bookmarksCollection = collection(firestore, "bookmarks");
       const userBookmarkDoc = doc(bookmarksCollection, userId);
 
-      // 사용자 북마크 데이터를 가져옵니다.
       const bookmarkDocSnapshot = await getDoc(userBookmarkDoc);
 
       if (bookmarkDocSnapshot.exists()) {
-        // 북마크 데이터가 있을 경우
         const bookmarksData = bookmarkDocSnapshot.data();
         console.log("사용자의 북마크 데이터:", bookmarksData);
 
-        // 가져온 데이터로 Redux 스토어를 업데이트합니다.
         dispatch(updateData(bookmarksData));
       } else {
         console.log("이 사용자의 북마크 데이터가 존재하지 않습니다.");

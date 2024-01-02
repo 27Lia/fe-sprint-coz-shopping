@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Dropdown from "./Dropdown";
+// import Dropdown from "./Dropdown";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,6 +7,7 @@ import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { logout } from "../redux";
 import StyledButton from "../component/Button";
+
 const StyleHeader = styled.header`
   background: #fff;
   padding: 25px 76px;
@@ -43,8 +44,7 @@ const StyleHeader = styled.header`
     margin: 0px 20px;
   }
 
-  .login-box,
-  .signup-box {
+  .button-box {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -53,11 +53,11 @@ const StyleHeader = styled.header`
 `;
 
 function Header() {
-  const [dropdown, setDropdown] = useState(false);
+  // const [dropdown, setDropdown] = useState(false);
 
-  const handleDropdown = () => {
-    setDropdown(!dropdown);
-  };
+  // const handleDropdown = () => {
+  //   setDropdown(!dropdown);
+  // };
 
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const dispatch = useDispatch();
@@ -92,15 +92,24 @@ function Header() {
       <div className="login-container">
         {/* isLoggedIn 값에 따라 버튼 표시 여부 결정 */}
         {isLoggedIn ? (
-          <StyledButton onClick={handleLogout}>로그아웃</StyledButton>
+          <>
+            <div className="button-box">
+              <StyledButton onClick={handleLogout}>로그아웃</StyledButton>
+            </div>
+            <div className="button-box">
+              <Link to="/bookmark">
+                <StyledButton>북마크 페이지</StyledButton>
+              </Link>
+            </div>
+          </>
         ) : (
           <>
-            <div className="login-box">
+            <div className="button-box">
               <Link to="/login">
                 <StyledButton>로그인</StyledButton>
               </Link>
             </div>
-            <div className="signup-box">
+            <div className="button-box">
               <Link to="/signup">
                 <StyledButton>회원가입</StyledButton>
               </Link>
@@ -108,16 +117,16 @@ function Header() {
           </>
         )}
       </div>
-      <button onClick={handleDropdown}>
-        <img
-          className="hamburger-logo"
-          src="/images/HeaderButton.svg"
-          alt="HeaderButton"
-        />
-      </button>
+      {/* <button onClick={handleDropdown}> */}
+      {/* <img
+        className="hamburger-logo"
+        src="/images/HeaderButton.svg"
+        alt="HeaderButton"
+      /> */}
+      {/* </button> */}
 
       {/* 레이아웃 방해를 받기 때문에 Dropdown 컴포넌트를 header-continer 요소 외부에 렌더링함  */}
-      {dropdown && <Dropdown />}
+      {/* {dropdown && <Dropdown />} */}
     </StyleHeader>
   );
 }

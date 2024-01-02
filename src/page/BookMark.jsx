@@ -43,7 +43,7 @@ function BookMark({ toggleBookmark, openModal }) {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.data); // Redux 스토어에서 데이터 가져오기
 
-  const filterProduct = products.filter((product) => {
+  const filterProduct = Object.values(products).filter((product) => {
     // 북마크된 상품들만 필터링
     return (
       product.checked &&

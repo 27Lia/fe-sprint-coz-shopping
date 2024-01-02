@@ -44,8 +44,7 @@ function ProductListPage({ toggleBookmark, openModal }) {
 
   const [ref, inView] = useInView();
   const perPage = 10; // 한 번에 불러올 아이템 개수
-
-  const filterProduct = products.filter((product) => {
+  const filterProduct = Object.values(products).filter((product) => {
     if (filterOption === "전체") {
       return !product.checked; // 북마크 되지 않은 상품만 필터링
     } else {

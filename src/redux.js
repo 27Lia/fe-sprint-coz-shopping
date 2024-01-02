@@ -20,7 +20,7 @@ export const updateData = (data) => ({
 
 const initialState = {
   isLoggedIn: false,
-  data: [], // JSON 데이터를 저장할 상태
+  data: [],
 };
 
 export const userReducer = (state = initialState, action) => {
