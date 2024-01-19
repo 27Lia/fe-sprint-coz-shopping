@@ -1,7 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import { auth, db } from "../firebase";
+import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
 
 // 한개의 컴포넌트에 4개의 타입을 넣는 방식을 사용함 why? poroduct를 중복으로 계속 써주어야하기때문
 
@@ -71,6 +73,10 @@ function ProductCard({ product, toggleBookmark, openModal }) {
   } = product;
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const navigate = useNavigate();
+  const { id } = product;
+  const bookmarks = useSelector((state) => state.bookmarks);
+  const dispatch = useDispatch();
+  console.log(bookmarks);
 
   // 별모양 이미지를 눌렀을 때 실행될 함수
   const handleStarClick = (e) => {
