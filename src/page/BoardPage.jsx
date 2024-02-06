@@ -5,12 +5,10 @@ import styled from "styled-components";
 import StyledButton from "../component/Button";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase";
 import InnerContainer from "./InnerContainer";
 
 const BoardContainer = styled.div`
   padding: 20px;
-
 `;
 
 const Title = styled.h1`
@@ -34,9 +32,8 @@ const PostItem = styled.li`
   transition: background-color 0.3s;
 
   h3 {
-    max-height:3vh;
+    max-height: 3vh;
     overflow: auto;
-
   }
   &:hover {
     background-color: #f1f1f1;
@@ -47,14 +44,14 @@ const PageNavigation = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
-  margin-bottom:60px;
+  margin-bottom: 60px;
 `;
 
 const PageButton = styled.button`
   margin: 0 5px;
   padding: 10px 20px;
   border: none;
-  background-color: #008CBA;
+  background-color: #008cba;
   color: white;
   border-radius: 5px;
   cursor: pointer;
@@ -73,7 +70,6 @@ const CreateButtonContainer = styled.div`
   margin: 0 auto;
 `;
 
-
 function BoardPage() {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -81,10 +77,9 @@ function BoardPage() {
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
 
-
   const fetchPosts = async () => {
     const postCollection = collection(db, "posts");
-    const q = query(postCollection, orderBy("createdAt", "desc")); 
+    const q = query(postCollection, orderBy("createdAt", "desc"));
     const postSnapshot = await getDocs(q);
     const postList = postSnapshot.docs.map((doc) => ({
       id: doc.id,
@@ -92,9 +87,6 @@ function BoardPage() {
     }));
     setPosts(postList);
   };
-  
-
-
 
   useEffect(() => {
     fetchPosts();
@@ -110,46 +102,45 @@ function BoardPage() {
   }
 
   const handlePostClick = (postId) => {
-    navigate(`/board/${postId}`);  // 게시글 ID를 사용하여 게시글 세부 정보 페이지로 이동
+    navigate(`/board/${postId}`); // 게시글 ID를 사용하여 게시글 세부 정보 페이지로 이동
   };
 
   const handleCreatePostClick = () => {
     if (!isLoggedIn) {
-      alert("로그인이 필요합니다.");  // 로그인하지 않은 경우 알림 표시
+      alert("로그인이 후 이용해주세요."); // 로그인하지 않은 경우 알림 표시
       return;
     }
-    navigate("/board/create");  // 로그인한 경우 문의 작성 페이지로 이동
+    navigate("/board/create"); // 로그인한 경우 문의 작성 페이지로 이동
   };
 
   return (
     <InnerContainer>
-    <BoardContainer>
-    <Title>문의 게시판</Title>
-      <PostList>
-        {currentPosts.map((post) => (
-          <PostItem key={post.id} onClick={() => handlePostClick(post.id)}>
-          <h3>{post.title}</h3>
-          </PostItem>
-        ))}
-      </PostList>
-      <div className="btn-box">
-      <CreateButtonContainer>
-          <StyledButton onClick={handleCreatePostClick}>
-            문의하기
-          </StyledButton>
-        </CreateButtonContainer>
-      </div>
-      <PageNavigation>
-        {pageNumbers.map(number => (
-          <PageButton key={number} onClick={() => setCurrentPage(number)}>
-            {number}
-          </PageButton>
-        ))}
-      </PageNavigation>
-    </BoardContainer>
+      <BoardContainer>
+        <Title>문의 게시판</Title>
+        <PostList>
+          {currentPosts.map((post) => (
+            <PostItem key={post.id} onClick={() => handlePostClick(post.id)}>
+              <h3>{post.title}</h3>
+            </PostItem>
+          ))}
+        </PostList>
+        <div className="btn-box">
+          <CreateButtonContainer>
+            <StyledButton onClick={handleCreatePostClick}>
+              문의하기
+            </StyledButton>
+          </CreateButtonContainer>
+        </div>
+        <PageNavigation>
+          {pageNumbers.map((number) => (
+            <PageButton key={number} onClick={() => setCurrentPage(number)}>
+              {number}
+            </PageButton>
+          ))}
+        </PageNavigation>
+      </BoardContainer>
     </InnerContainer>
   );
 }
-
 
 export default BoardPage;

@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-// import Dropdown from "./Dropdown";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -53,12 +51,6 @@ const StyleHeader = styled.header`
 `;
 
 function Header() {
-  // const [dropdown, setDropdown] = useState(false);
-
-  // const handleDropdown = () => {
-  //   setDropdown(!dropdown);
-  // };
-
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -117,16 +109,6 @@ function Header() {
           </>
         )}
       </div>
-      {/* <button onClick={handleDropdown}> */}
-      {/* <img
-        className="hamburger-logo"
-        src="/images/HeaderButton.svg"
-        alt="HeaderButton"
-      /> */}
-      {/* </button> */}
-
-      {/* 레이아웃 방해를 받기 때문에 Dropdown 컴포넌트를 header-continer 요소 외부에 렌더링함  */}
-      {/* {dropdown && <Dropdown />} */}
     </StyleHeader>
   );
 }
