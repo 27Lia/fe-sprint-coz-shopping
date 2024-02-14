@@ -66,6 +66,7 @@ function ProductCard({ product }) {
   const handleBookmarkClick = () => {
     if (isBookmarked) {
       dispatch(removeBookmark(product.id));
+
       toast("북마크가 제거되었습니다."); // 토스트 메시지 표시
     } else {
       if (!isLoggedIn) {

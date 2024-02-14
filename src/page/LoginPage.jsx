@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { login } from "../redux";
 import StyledButton from "../component/Button";
+import { db, auth } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -39,7 +40,6 @@ function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -49,7 +49,16 @@ function LoginPage() {
       const user = userCredential.user;
       dispatch(login());
 
-      // 사용자의 북마크 데이터 불러오는 함수 호출
+      // 사용자의 북마크 목록을 불러오는 로직
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        console.log("북마크 목록:", userData.bookmarks); // 북마크 목록 콘솔에 출력
+      } else {
+        console.log("사용자의 북마크 목록이 존재하지 않습니다.");
+      }
+
       navigate("/");
     } catch (error) {
       console.error("로그인 에러:", error);

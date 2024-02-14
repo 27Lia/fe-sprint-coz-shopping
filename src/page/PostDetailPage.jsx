@@ -11,12 +11,12 @@ const PostDetailContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
   padding: 20px;
   gap: 20px;
   border-radius: 10px;
   border: 1px solid #ddd;
-  height:70vh;
+  height: 70vh;
   width: 100%;
 `;
 
@@ -41,7 +41,6 @@ const PostTitle = styled.h1`
   max-height: 5vh;
   overflow-y: auto;
   max-width: 80%;
-
 `;
 
 const PostContent = styled.p`
@@ -89,9 +88,9 @@ function PostDetailPage() {
       alert("로그인이 필요합니다.");
       return;
     }
-    setEditedTitle(post.title); // 현재 게시글의 제목을 editedTitle에 설정
-    setEditedContent(post.content); // 현재 게시글의 내용을 editedContent에 설정
-    setIsEditing(true); // 수정 모드 활성화
+    setEditedTitle(post.title);
+    setEditedContent(post.content);
+    setIsEditing(true);
   };
 
   const handleSave = async () => {
@@ -100,8 +99,8 @@ function PostDetailPage() {
         title: editedTitle || post.title,
         content: editedContent || post.content,
       });
-      setIsEditing(false); // 수정 모드 비활성화
-      fetchPost(); // 업데이트된 게시글 데이터 가져오기
+      setIsEditing(false);
+      fetchPost();
     } catch (error) {
       console.error("Error updating document:", error);
     }
@@ -116,7 +115,6 @@ function PostDetailPage() {
     if (!currentUser) return;
 
     if (currentUser.uid !== post.authorId) {
-      // 작성자 확인
       alert("본인의 게시물만 삭제할 수 있습니다.");
       return;
     }
