@@ -27,7 +27,7 @@ function App() {
         </Routes>
         <Footer />
 
-        <ToastContainer />
+        <ToastContainer autoClose={200} />
       </div>
     </BrowserRouter>
   );
