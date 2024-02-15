@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "../component/ProductCard";
 import { styled } from "styled-components";
 import InnerContainer from "./InnerContainer";
 import Nav from "../component/Nav";
-import useFilteredProducts from "../hooks/useFilteredProducts";
+import { db, auth } from "../firebase";
+import { doc, onSnapshot } from "firebase/firestore";
+import { useSelector } from "react-redux";
 
 const StyleBookMark = styled.div`
   nav {
@@ -37,17 +39,52 @@ const StyleBookMark = styled.div`
 
 function BookMark() {
   const [filterOption, setFilterOption] = useState("전체");
+  const products = useSelector((state) => state.products); // 전체 상품 데이터
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // 북마크된 상품 데이터만 필터링
-  const filterProduct = useFilteredProducts(filterOption, true);
+  useEffect(() => {
+    const unsubscribeAuth = auth.onAuthStateChanged((user) => {
+      if (user) {
+        const userDocRef = doc(db, "users", user.uid);
+        // 사용자 문서의 실시간 변경 감시
+        const unsubscribeSnapshot = onSnapshot(userDocRef, (docSnap) => {
+          if (docSnap.exists()) {
+            const userData = docSnap.data();
+            // 북마크 정보를 바탕으로 상품 필터링
+            const bookmarkedFilteredProducts = products.filter((product) =>
+              userData.bookmarks.some(
+                (bookmark) =>
+                  bookmark.id === product.id &&
+                  (filterOption === "전체" || product.type === filterOption)
+              )
+            );
 
+            // 필터링된 상품을 상태에 저장하여 렌더링
+            setFilteredProducts(bookmarkedFilteredProducts);
+          } else {
+            // 문서가 존재하지 않는 경우, 빈 배열 설정
+            setFilteredProducts([]);
+          }
+        });
+
+        // 컴포넌트 언마운트 시 실시간 감시 해제
+        return unsubscribeSnapshot;
+      } else {
+        // 사용자가 로그인하지 않은 경우, 전체 상품 목록을 렌더링
+        setFilteredProducts(products);
+      }
+    });
+
+    // 컴포넌트 언마운트 시 인증 상태 리스너 해제
+    return () => unsubscribeAuth();
+  }, [products, filterOption]);
   return (
     <InnerContainer>
       <StyleBookMark>
         <Nav setFilterOption={setFilterOption} />
         <main>
-          {filterProduct.length ? (
-            filterProduct.map((product) => (
+          {filteredProducts.length ? (
+            filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))
           ) : (

@@ -1,9 +1,9 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import { addBookmark, removeBookmark } from "../redux";
 import { toast } from "react-toastify";
+import { doc, updateDoc, arrayUnion, getDoc, setDoc } from "firebase/firestore";
+import { db, auth } from "../firebase";
 
 const StyleProductCard = styled.li`
   div:not(:nth-child(1)) {
@@ -57,27 +57,45 @@ const StyleProductCard = styled.li`
 `;
 
 function ProductCard({ product }) {
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const bookmarks = useSelector((state) => state.bookmarks);
-  const isBookmarked = bookmarks.includes(product.id);
 
-  const handleBookmarkClick = () => {
+  const handleBookmarkClick = async () => {
+    if (!auth.currentUser) {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+      return;
+    }
+
+    const userDocRef = doc(db, "users", auth.currentUser.uid);
+    const docSnap = await getDoc(userDocRef);
+
+    if (!docSnap.exists()) {
+      // 사용자 문서가 존재하지 않을 경우, 새로운 문서를 생성
+      await setDoc(userDocRef, { bookmarks: [] });
+    }
+
+    // 사용자 문서가 이미 존재하거나 새로 생성된 경우, 북마크를 추가하거나 삭제
+    let userData = docSnap.exists() ? docSnap.data() : { bookmarks: [] };
+    let bookmarks = userData.bookmarks || [];
+
+    // 북마크 객체 생성
+    let bookmarkObject = { id: product.id, type: product.type };
+
+    // 상품 ID 기반으로 북마크 여부 확인
+    let isBookmarked = bookmarks.some((bookmark) => bookmark.id === product.id);
+
     if (isBookmarked) {
-      dispatch(removeBookmark(product.id));
-
-      toast("북마크가 제거되었습니다."); // 토스트 메시지 표시
+      // 북마크에서 제거
+      await updateDoc(userDocRef, {
+        bookmarks: bookmarks.filter((bookmark) => bookmark.id !== product.id),
+      });
+      toast("북마크가 제거되었습니다.");
     } else {
-      if (!isLoggedIn) {
-        // 로그인되어 있지 않으면 알림 표시 및 로그인 페이지로 이동
-        alert("로그인이 필요합니다.");
-        navigate("/login"); // 로그인 페이지로 이동
-        return;
-      }
-
-      dispatch(addBookmark(product.id));
-      toast("북마크에 추가되었습니다."); // 토스트 메시지 표시
+      // 북마크에 추가
+      await updateDoc(userDocRef, {
+        bookmarks: arrayUnion(bookmarkObject),
+      });
+      toast("북마크에 추가되었습니다.");
     }
   };
 

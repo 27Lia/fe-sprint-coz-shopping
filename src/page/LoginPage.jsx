@@ -49,16 +49,6 @@ function LoginPage() {
       const user = userCredential.user;
       dispatch(login());
 
-      // 사용자의 북마크 목록을 불러오는 로직
-      const userDocRef = doc(db, "users", user.uid);
-      const userDoc = await getDoc(userDocRef);
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        console.log("북마크 목록:", userData.bookmarks); // 북마크 목록 콘솔에 출력
-      } else {
-        console.log("사용자의 북마크 목록이 존재하지 않습니다.");
-      }
-
       navigate("/");
     } catch (error) {
       console.error("로그인 에러:", error);
