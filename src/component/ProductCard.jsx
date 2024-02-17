@@ -59,7 +59,9 @@ const StyleProductCard = styled.li`
 function ProductCard({ product }) {
   const navigate = useNavigate();
 
-  const handleBookmarkClick = async () => {
+  const handleBookmarkClick = async (e) => {
+    e.stopPropagation();
+
     if (!auth.currentUser) {
       alert("로그인이 필요합니다.");
       navigate("/login");
@@ -100,7 +102,7 @@ function ProductCard({ product }) {
   };
 
   const goToDetailPage = () => {
-    navigate(`/product/${product.id}`); // 상품 상세 페이지로 이동
+    navigate(`/product/${product.id}`);
   };
 
   // 타입에 따라 다른 컴포넌트를 렌더링
