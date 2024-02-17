@@ -23,11 +23,11 @@ function App() {
   }, [dispatch]);
 
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter basename="/fe-sprint-coz-shopping">
       <div className="app">
         <Header />
         <Routes>
-          <Route path="/fe-sprint-coz-shopping" element={<ProductListPage />} />
+          <Route path="/" element={<ProductListPage />} />
           <Route path="/bookmark" element={<BookMark />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
