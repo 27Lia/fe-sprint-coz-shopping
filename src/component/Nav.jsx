@@ -6,7 +6,10 @@ function Nav({ setFilterOption }) {
       <ul>
         <li>
           <button className="all" onClick={() => setFilterOption("전체")}>
-            <img src="../images/allimg.svg" alt=""></img>
+            <img
+              src={`${process.env.PUBLIC_URL}/images/allimg.svg`}
+              alt=""
+            ></img>
           </button>
         </li>
         <li>
@@ -14,7 +17,10 @@ function Nav({ setFilterOption }) {
             className="Product"
             onClick={() => setFilterOption("Product")}
           >
-            <img src="../images/productimg.svg" alt=""></img>
+            <img
+              src={`${process.env.PUBLIC_URL}/images/productimg.svg`}
+              alt=""
+            ></img>
           </button>
         </li>
         <li>
@@ -22,7 +28,10 @@ function Nav({ setFilterOption }) {
             className="Category"
             onClick={() => setFilterOption("Category")}
           >
-            <img src="../images/categoryimg.svg" alt=""></img>
+            <img
+              src={`${process.env.PUBLIC_URL}/images/categoryimg.svg`}
+              alt=""
+            ></img>
           </button>
         </li>
         <li>
@@ -30,12 +39,18 @@ function Nav({ setFilterOption }) {
             className="Exhibition"
             onClick={() => setFilterOption("Exhibition")}
           >
-            <img src="../images/Exhibitionimg.svg" alt=""></img>
+            <img
+              src={`${process.env.PUBLIC_URL}/images/Exhibitionimg.svg`}
+              alt=""
+            ></img>
           </button>
         </li>
         <li>
           <button className="Brand" onClick={() => setFilterOption("Brand")}>
-            <img src="../images/Brandimg.svg" alt=""></img>
+            <img
+              src={`${process.env.PUBLIC_URL}/images/Brandimg.svg`}
+              alt=""
+            ></img>
           </button>
         </li>
       </ul>

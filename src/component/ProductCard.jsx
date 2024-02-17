@@ -115,7 +115,7 @@ function ProductCard({ product }) {
             <img
               onClick={handleBookmarkClick}
               className="star"
-              src={"/images/uncheckedStar.svg"}
+              src={process.env.PUBLIC_URL + "/images/uncheckedStar.svg"}
               alt="Bookmark"
             />
           </div>
@@ -143,7 +143,7 @@ function ProductCard({ product }) {
             <img
               onClick={handleBookmarkClick}
               className="star"
-              src={"/images/uncheckedStar.svg"}
+              src={process.env.PUBLIC_URL + "/images/uncheckedStar.svg"}
               alt="Bookmark"
             />
           </div>
@@ -164,7 +164,7 @@ function ProductCard({ product }) {
             <img
               onClick={handleBookmarkClick}
               className="star"
-              src={"/images/uncheckedStar.svg"}
+              src={process.env.PUBLIC_URL + "/images/uncheckedStar.svg"}
               alt="Bookmark"
             />
           </div>
@@ -186,7 +186,7 @@ function ProductCard({ product }) {
             <img
               onClick={handleBookmarkClick}
               className="star"
-              src={"/images/uncheckedStar.svg"}
+              src={process.env.PUBLIC_URL + "/images/uncheckedStar.svg"}
               alt="Bookmark"
             />
           </div>
