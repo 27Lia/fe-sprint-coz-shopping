@@ -22,8 +22,8 @@ const StyleBookMark = styled.div`
 
   main {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); // 4개의 열로 구성
-    grid-template-rows: repeat(4, 3fr); // 4개의 열로 구성
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 3fr);
     align-items: center;
     margin: 24px 76px;
     gap: 0.75rem;

@@ -99,12 +99,16 @@ function ProductCard({ product }) {
     }
   };
 
+  const goToDetailPage = () => {
+    navigate(`/product/${product.id}`); // 상품 상세 페이지로 이동
+  };
+
   // 타입에 따라 다른 컴포넌트를 렌더링
   switch (product.type) {
     case "Product":
       return (
         <StyleProductCard>
-          <div className="product-box">
+          <div className="product-box" onClick={goToDetailPage}>
             <img className="item-img" src={product.image_url} alt="Product" />
             <img
               onClick={handleBookmarkClick}
@@ -114,7 +118,7 @@ function ProductCard({ product }) {
             />
           </div>
 
-          <div className="title-box">
+          <div className="title-box" onClick={goToDetailPage}>
             <span className="title">{product.title}</span>
             <span className="discountPercentage">
               {product.discountPercentage}%
@@ -128,7 +132,7 @@ function ProductCard({ product }) {
     case "Category":
       return (
         <StyleProductCard>
-          <div className="product-box">
+          <div className="product-box" onClick={goToDetailPage}>
             <img
               className="item-img"
               src={product.image_url}
@@ -141,7 +145,7 @@ function ProductCard({ product }) {
               alt="Bookmark"
             />
           </div>
-          <div className="title-box">
+          <div className="title-box" onClick={goToDetailPage}>
             <span className="title">#{product.title}</span>
           </div>
         </StyleProductCard>
@@ -149,7 +153,7 @@ function ProductCard({ product }) {
     case "Exhibition":
       return (
         <StyleProductCard>
-          <div className="product-box">
+          <div className="product-box" onClick={goToDetailPage}>
             <img
               className="item-img"
               src={product.image_url}
@@ -162,7 +166,7 @@ function ProductCard({ product }) {
               alt="Bookmark"
             />
           </div>
-          <div className="title-box">
+          <div className="title-box" onClick={goToDetailPage}>
             <span className="title">{product.title}</span>
           </div>
           <div className="sub_title">{product.sub_title}</div>
@@ -171,7 +175,7 @@ function ProductCard({ product }) {
     case "Brand":
       return (
         <StyleProductCard>
-          <div className="product-box">
+          <div className="product-box" onClick={goToDetailPage}>
             <img
               className="item-img"
               src={product.brand_image_url}
@@ -184,7 +188,7 @@ function ProductCard({ product }) {
               alt="Bookmark"
             />
           </div>
-          <div className="title-box">
+          <div className="title-box" onClick={goToDetailPage}>
             <span className="brand_name">{product.brand_name}</span>
             <span className="interest_count">관심고객수</span>
           </div>

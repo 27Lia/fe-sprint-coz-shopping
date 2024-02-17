@@ -10,6 +10,7 @@ import CreatePostPage from "./page/CreatePostPage";
 import PostDetailPage from "./page/PostDetailPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProductDetailPage from "./page/ProductDetailPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/board" element={<BoardPage />} />
           <Route path="/board/create" element={<CreatePostPage />} />
           <Route path="/board/:postId" element={<PostDetailPage />} />
+          <Route path="/product/:productId" element={<ProductDetailPage />} />
         </Routes>
         <Footer />
 
