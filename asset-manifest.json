@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/%7Bfe-sprint-coz-shopping%7D/static/css/main.2f4bfbd6.css",
-    "main.js": "/%7Bfe-sprint-coz-shopping%7D/static/js/main.f318c6b8.js",
-    "index.html": "/%7Bfe-sprint-coz-shopping%7D/index.html",
-    "main.2f4bfbd6.css.map": "/%7Bfe-sprint-coz-shopping%7D/static/css/main.2f4bfbd6.css.map",
-    "main.f318c6b8.js.map": "/%7Bfe-sprint-coz-shopping%7D/static/js/main.f318c6b8.js.map"
+    "main.css": "/fe-sprint-coz-shopping/static/css/main.2f4bfbd6.css",
+    "main.js": "/fe-sprint-coz-shopping/static/js/main.29176ba8.js",
+    "index.html": "/fe-sprint-coz-shopping/index.html",
+    "main.2f4bfbd6.css.map": "/fe-sprint-coz-shopping/static/css/main.2f4bfbd6.css.map",
+    "main.29176ba8.js.map": "/fe-sprint-coz-shopping/static/js/main.29176ba8.js.map"
   },
   "entrypoints": [
     "static/css/main.2f4bfbd6.css",
-    "static/js/main.f318c6b8.js"
+    "static/js/main.29176ba8.js"
   ]
 }
