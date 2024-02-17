@@ -14,7 +14,7 @@ import ProductDetailPage from "./page/ProductDetailPage";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <div className="app">
         <Header />
         <Routes>

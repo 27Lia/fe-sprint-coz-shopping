@@ -71,7 +71,10 @@ function Header() {
       <div className="logo-container">
         <div className="logo-img">
           <Link to="/">
-            <img src="/images/mainLogo.png" alt="mainLogo" />
+            <img
+              src={`${process.env.PUBLIC_URL}/images/mainLogo.png`}
+              alt="Main Logo"
+            />
           </Link>
         </div>
         <span className="logo-title">shopping</span>
