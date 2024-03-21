@@ -39,7 +39,7 @@ const StyleProductList = styled.div`
 
 function ProductListPage() {
   const [filterOption, setFilterOption] = useState("전체");
-  const products = useSelector((state) => state.products); // 전체 상품 데이터
+  const products = useSelector((state) => state.products);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
@@ -67,8 +67,12 @@ function ProductListPage() {
         // 컴포넌트 언마운트 시 onSnapshot 감시 중지
         return () => unsubscribeSnapshot();
       } else {
-        // 사용자가 로그인하지 않은 경우, 북마크 필터링 없이 모든 상품을 표시
-        setFilteredProducts(products);
+        // 사용자가 로그인하지 않은 경우에도 필터링을 적용하여 상품을 표시
+        const nonBookmarkedFilteredProducts = products.filter(
+          (product) => filterOption === "전체" || product.type === filterOption
+        );
+
+        setFilteredProducts(nonBookmarkedFilteredProducts);
       }
     });
 
