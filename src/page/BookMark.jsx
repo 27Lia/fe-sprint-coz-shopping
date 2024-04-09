@@ -8,10 +8,10 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { useSelector } from "react-redux";
 
 const StyleBookMark = styled.div`
+  margin-top: 150px;
   nav {
     display: flex;
     align-items: center;
-    margin-top: 24px;
     justify-content: center;
   }
 

@@ -93,7 +93,7 @@ function Header() {
             </div>
             <div className="button-box">
               <Link to="/bookmark">
-                <StyledButton>북마크 페이지</StyledButton>
+                <StyledButton>장바구니 페이지</StyledButton>
               </Link>
             </div>
           </>

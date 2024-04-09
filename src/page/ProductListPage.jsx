@@ -8,6 +8,8 @@ import { db, auth } from "../firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 
 const StyleProductList = styled.div`
+  margin-top: 150px;
+
   nav {
     display: flex;
     margin-top: 24px;

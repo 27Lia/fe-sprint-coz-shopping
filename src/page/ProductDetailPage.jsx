@@ -3,39 +3,58 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import InnerContainer from "./InnerContainer";
-import { handleBookmarkClick } from "../utills/bookmarkUtils"; // 북마크 함수 가져오기
+import { handleBookmarkClick } from "../utills/bookmarkUtils";
 
 const StyleProductDetail = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  justify-content: center;
+  gap: 60px;
+  height: 100%;
+`;
 
-  .product-image {
-    width: 264px;
-    height: 210px;
-    border-radius: 10px;
+const Img = styled.img`
+  width: 264px;
+  height: 210px;
+  border-radius: 10px;
+`;
+
+const InfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  height: 210px;
+`;
+
+const ProductInfo = styled.div`
+  h2 {
+    margin: 10px 0;
+    font-size: 24px;
+    font-weight: bold;
   }
 
-  .product-info {
-    margin-top: 20px;
-    text-align: center;
+  .price {
+    margin: 5px 0;
+    font-size: 20px;
+  }
 
-    .title {
-      margin: 10px 0;
-      font-size: 24px;
-      font-weight: bold;
-    }
+  .description {
+    margin-top: 15px;
+  }
+`;
 
-    .price {
-      margin: 5px 0;
-      font-size: 20px;
-      color: #007bff;
-    }
+const BookmarkBtn = styled.button`
+  padding: 10px;
+  background-color: #007bff; /* 포인트 색상 */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 
-    .description {
-      margin-top: 15px;
-    }
+  &:hover {
+    background-color: #0056b3; /* 포인트 색상의 조금 더 어둡게 */
   }
 `;
 
@@ -57,34 +76,29 @@ function ProductDetailPage() {
   return (
     <InnerContainer>
       <StyleProductDetail>
-        <img
+        <Img
           src={
             product.type === "Brand"
               ? product.brand_image_url
               : product.image_url
           }
           alt="Product"
-          className="product-image"
         />
-        <img
-          onClick={handleBookmark}
-          className="star"
-          src={process.env.PUBLIC_URL + "/images/uncheckedStar.svg"}
-          alt="Bookmark"
-        />
-
-        <div className="product-info">
-          {product.brand_name || product.title ? (
-            <h2>{product.brand_name || product.title}</h2>
-          ) : null}
-          {product.price && <p className="price">{`${product.price}원`}</p>}
-          {product.sub_title && (
-            <p className="description">{product.sub_title}</p>
-          )}
-          {product.discountPercentage && (
-            <p>{`${product.discountPercentage}%`}</p>
-          )}
-        </div>
+        <InfoBox>
+          <ProductInfo>
+            {product.brand_name || product.title ? (
+              <h2>{product.brand_name || product.title}</h2>
+            ) : null}
+            {product.price && <p className="price">{`${product.price}원`}</p>}
+            {product.sub_title && (
+              <p className="description">{product.sub_title}</p>
+            )}
+            {product.discountPercentage && (
+              <p>{`${product.discountPercentage}%`}</p>
+            )}
+          </ProductInfo>
+          <BookmarkBtn onClick={handleBookmark}>장바구니 담기</BookmarkBtn>
+        </InfoBox>
       </StyleProductDetail>
     </InnerContainer>
   );
