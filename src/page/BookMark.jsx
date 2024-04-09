@@ -4,7 +4,7 @@ import { styled } from "styled-components";
 import InnerContainer from "./InnerContainer";
 import Nav from "../component/Nav";
 import { db, auth } from "../firebase";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 
 const StyleBookMark = styled.div`
@@ -41,11 +41,13 @@ function BookMark() {
   const [filterOption, setFilterOption] = useState("전체");
   const products = useSelector((state) => state.products); // 전체 상품 데이터
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [productQuantities, setProductQuantities] = useState({}); // 각 상품의 수량 상태 추가
 
   useEffect(() => {
-    const unsubscribeAuth = auth.onAuthStateChanged((user) => {
+    const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const userDocRef = doc(db, "users", user.uid);
+
         // 사용자 문서의 실시간 변경 감시
         const unsubscribeSnapshot = onSnapshot(userDocRef, (docSnap) => {
           if (docSnap.exists()) {
@@ -67,6 +69,17 @@ function BookMark() {
           }
         });
 
+        // 수량 가져오기
+        const docSnap = await getDoc(userDocRef);
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          const productQuantities = {};
+          userData.bookmarks.forEach((bookmark) => {
+            productQuantities[bookmark.id] = bookmark.quantity || 0;
+          });
+          setProductQuantities(productQuantities);
+        }
+
         // 컴포넌트 언마운트 시 실시간 감시 해제
         return unsubscribeSnapshot;
       } else {
@@ -78,6 +91,32 @@ function BookMark() {
     // 컴포넌트 언마운트 시 인증 상태 리스너 해제
     return () => unsubscribeAuth();
   }, [products, filterOption]);
+
+  const adjustQuantity = async (productId, amount) => {
+    const updatedQuantities = {
+      ...productQuantities,
+      [productId]: Math.max(0, (productQuantities[productId] || 0) + amount),
+    };
+    setProductQuantities(updatedQuantities);
+
+    // Firestore에 업데이트된 수량 정보 반영
+    const user = auth.currentUser;
+    if (user) {
+      const userDocRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(userDocRef);
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        const updatedBookmarks = userData.bookmarks.map((bookmark) => {
+          if (bookmark.id === productId) {
+            return { ...bookmark, quantity: updatedQuantities[productId] };
+          }
+          return bookmark;
+        });
+        await updateDoc(userDocRef, { bookmarks: updatedBookmarks });
+      }
+    }
+  };
+
   return (
     <InnerContainer>
       <StyleBookMark>
@@ -85,12 +124,20 @@ function BookMark() {
         <main>
           {filteredProducts.length ? (
             filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <div key={product.id}>
+                <ProductCard product={product} />
+                <button onClick={() => adjustQuantity(product.id, -1)}>
+                  -
+                </button>
+                <span>{productQuantities[product.id] || 0}</span>
+                <button onClick={() => adjustQuantity(product.id, 1)}>+</button>
+              </div>
             ))
           ) : (
             <h4>북마크된 항목이 존재하지 않습니다</h4>
           )}
         </main>
+
         <div className="blank"></div>
       </StyleBookMark>
     </InnerContainer>
