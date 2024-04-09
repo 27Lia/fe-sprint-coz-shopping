@@ -40,7 +40,7 @@ const StyleProductDetail = styled.div`
 
 function ProductDetailPage() {
   const { productId } = useParams();
-  const products = useSelector((state) => state.products); // 전체 상품 데이터에서 상품 정보를 가져옵니다.
+  const products = useSelector((state) => state.products);
   const product = products.find(
     (product) => product.id.toString() === productId
   );
@@ -63,10 +63,15 @@ function ProductDetailPage() {
         />
 
         <div className="product-info">
-          <h2 className="title">{product.title}</h2>
+          {product.brand_name || product.title ? (
+            <h2>{product.brand_name || product.title}</h2>
+          ) : null}
           {product.price && <p className="price">{`${product.price}원`}</p>}
-          {product.description && (
-            <p className="description">{product.description}</p>
+          {product.sub_title && (
+            <p className="description">{product.sub_title}</p>
+          )}
+          {product.discountPercentage && (
+            <p>{`${product.discountPercentage}%`}</p>
           )}
         </div>
       </StyleProductDetail>

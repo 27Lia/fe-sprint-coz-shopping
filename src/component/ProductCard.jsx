@@ -102,7 +102,11 @@ function ProductCard({ product }) {
   };
 
   const goToDetailPage = () => {
-    navigate(`/product/${product.id}`);
+    if (product.type === "Product") {
+      navigate(`/product/${product.id}`);
+    } else {
+      toast("상품만 상세페이지 이동이 가능합니다.");
+    }
   };
 
   // 타입에 따라 다른 컴포넌트를 렌더링
@@ -192,9 +196,7 @@ function ProductCard({ product }) {
           </div>
           <div className="title-box" onClick={goToDetailPage}>
             <span className="brand_name">{product.brand_name}</span>
-            <span className="interest_count">관심고객수</span>
           </div>
-          <div className="follower">{product.follower}명</div>
         </StyleProductCard>
       );
     default:
