@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import InnerContainer from "./InnerContainer";
+import { handleBookmarkClick } from "../utills/bookmarkUtils"; // 북마크 함수 가져오기
 
 const StyleProductDetail = styled.div`
   display: flex;
@@ -49,6 +50,10 @@ function ProductDetailPage() {
     return <div>Loading...</div>;
   }
 
+  const handleBookmark = () => {
+    handleBookmarkClick(product);
+  };
+
   return (
     <InnerContainer>
       <StyleProductDetail>
@@ -60,6 +65,12 @@ function ProductDetailPage() {
           }
           alt="Product"
           className="product-image"
+        />
+        <img
+          onClick={handleBookmark}
+          className="star"
+          src={process.env.PUBLIC_URL + "/images/uncheckedStar.svg"}
+          alt="Bookmark"
         />
 
         <div className="product-info">

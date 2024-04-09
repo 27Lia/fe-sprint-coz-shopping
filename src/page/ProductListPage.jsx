@@ -52,7 +52,10 @@ function ProductListPage() {
           let bookmarkedIds = [];
           if (docSnap.exists()) {
             const userData = docSnap.data();
-            bookmarkedIds = userData.bookmarks.map((bookmark) => bookmark.id);
+            if (userData.bookmarks) {
+              // bookmarks가 존재하는지 확인
+              bookmarkedIds = userData.bookmarks.map((bookmark) => bookmark.id);
+            }
           }
 
           const nonBookmarkedFilteredProducts = products.filter(
