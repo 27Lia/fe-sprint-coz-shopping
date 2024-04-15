@@ -60,6 +60,32 @@ const BookmarkBtn = styled.button`
   }
 `;
 
+export const QuantityControl = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`;
+
+export const QuantityButton = styled.button`
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+export const QuantityDisplay = styled.span`
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
 function ProductDetailPage() {
   const [productQuantities, setProductQuantities] = useState({}); // 각 상품의 수량 상태 추가
 
@@ -72,9 +98,11 @@ function ProductDetailPage() {
         if (docSnap.exists()) {
           const userData = docSnap.data();
           const productQuantities = {};
-          userData.bookmarks.forEach((bookmark) => {
-            productQuantities[bookmark.id] = bookmark.quantity || 0;
-          });
+          if (userData.bookmarks && Array.isArray(userData.bookmarks)) {
+            userData.bookmarks.forEach((bookmark) => {
+              productQuantities[bookmark.id] = bookmark.quantity || 0;
+            });
+          }
           setProductQuantities(productQuantities);
         }
       }
@@ -148,10 +176,17 @@ function ProductDetailPage() {
             )}
           </ProductInfo>
           <BookmarkBtn onClick={handleBookmark}>장바구니 담기</BookmarkBtn>
-          <button onClick={() => adjustQuantity(product.id, -1)}>-</button>
-          <span>{productQuantities[product.id] || 0}</span>
-
-          <button onClick={() => adjustQuantity(product.id, 1)}>+</button>
+          <QuantityControl>
+            <QuantityButton onClick={() => adjustQuantity(product.id, -1)}>
+              -
+            </QuantityButton>
+            <QuantityDisplay>
+              {productQuantities[product.id] || 0}
+            </QuantityDisplay>
+            <QuantityButton onClick={() => adjustQuantity(product.id, 1)}>
+              +
+            </QuantityButton>
+          </QuantityControl>
         </InfoBox>
       </StyleProductDetail>
     </InnerContainer>

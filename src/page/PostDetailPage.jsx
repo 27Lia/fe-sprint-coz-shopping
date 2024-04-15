@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { db, auth } from "../firebase";
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { useNavigate, useParams } from "react-router-dom";
@@ -66,7 +66,7 @@ function PostDetailPage() {
   const [editedTitle, setEditedTitle] = useState("");
   const [editedContent, setEditedContent] = useState("");
 
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     try {
       const postDoc = await getDoc(doc(db, "posts", postId));
       if (postDoc.exists()) {
@@ -77,11 +77,11 @@ function PostDetailPage() {
     } catch (error) {
       console.error("Error getting document:", error);
     }
-  };
+  }, [postId]);
 
   useEffect(() => {
     fetchPost();
-  }, [postId]);
+  }, [postId, fetchPost]);
 
   const handleEdit = () => {
     if (!isLoggedIn) {
