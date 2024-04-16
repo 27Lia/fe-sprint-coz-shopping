@@ -66,6 +66,7 @@ function ProductCard({ product }) {
       toast("상품만 상세페이지 이동이 가능합니다.");
     }
   };
+
   const handleBookmark = async (e) => {
     e.stopPropagation();
     handleBookmarkClick(product);

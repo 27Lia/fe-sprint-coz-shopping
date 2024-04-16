@@ -11,8 +11,17 @@ import PostDetailPage from "./page/PostDetailPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductDetailPage from "./page/ProductDetailPage";
+import { fetchProducts } from "./redux";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
   return (
     <BrowserRouter basename="/fe-sprint-coz-shopping">
       <div className="app">

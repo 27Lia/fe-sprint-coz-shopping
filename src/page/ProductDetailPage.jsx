@@ -87,31 +87,7 @@ export const QuantityDisplay = styled.span`
 `;
 
 function ProductDetailPage() {
-  const [productQuantities, setProductQuantities] = useState({}); // 각 상품의 수량 상태 추가
   const handleBookmarkClick = useBookmark();
-
-  useEffect(() => {
-    const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const userDocRef = doc(db, "users", user.uid);
-        // 수량 가져오기
-        const docSnap = await getDoc(userDocRef);
-        if (docSnap.exists()) {
-          const userData = docSnap.data();
-          const productQuantities = {};
-          if (userData.bookmarks && Array.isArray(userData.bookmarks)) {
-            userData.bookmarks.forEach((bookmark) => {
-              productQuantities[bookmark.id] = bookmark.quantity || 0;
-            });
-          }
-          setProductQuantities(productQuantities);
-        }
-      }
-    });
-
-    // 컴포넌트가 언마운트될 때 Firebase 감시 정리
-    return () => unsubscribeAuth();
-  }, []);
 
   const { productId } = useParams();
   const products = useSelector((state) => state.products);
@@ -125,31 +101,6 @@ function ProductDetailPage() {
 
   const handleBookmark = () => {
     handleBookmarkClick(product);
-  };
-
-  const adjustQuantity = async (productId, amount) => {
-    const updatedQuantities = {
-      ...productQuantities,
-      [productId]: Math.max(0, (productQuantities[productId] || 0) + amount),
-    };
-    setProductQuantities(updatedQuantities);
-
-    // Firestore에 업데이트된 수량 정보 반영
-    const user = auth.currentUser;
-    if (user) {
-      const userDocRef = doc(db, "users", user.uid);
-      const docSnap = await getDoc(userDocRef);
-      if (docSnap.exists()) {
-        const userData = docSnap.data();
-        const updatedBookmarks = userData.bookmarks.map((bookmark) => {
-          if (bookmark.id === productId) {
-            return { ...bookmark, quantity: updatedQuantities[productId] };
-          }
-          return bookmark;
-        });
-        await updateDoc(userDocRef, { bookmarks: updatedBookmarks });
-      }
-    }
   };
 
   return (
@@ -177,17 +128,6 @@ function ProductDetailPage() {
             )}
           </ProductInfo>
           <BookmarkBtn onClick={handleBookmark}>장바구니 담기</BookmarkBtn>
-          <QuantityControl>
-            <QuantityButton onClick={() => adjustQuantity(product.id, -1)}>
-              -
-            </QuantityButton>
-            <QuantityDisplay>
-              {productQuantities[product.id] || 0}
-            </QuantityDisplay>
-            <QuantityButton onClick={() => adjustQuantity(product.id, 1)}>
-              +
-            </QuantityButton>
-          </QuantityControl>
         </InfoBox>
       </StyleProductDetail>
     </InnerContainer>
