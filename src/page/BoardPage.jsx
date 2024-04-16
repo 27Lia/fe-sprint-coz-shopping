@@ -9,6 +9,7 @@ import InnerContainer from "./InnerContainer";
 
 const BoardContainer = styled.div`
   padding: 20px;
+  margin-top: 150px;
 `;
 
 const Title = styled.h1`
@@ -107,7 +108,8 @@ function BoardPage() {
 
   const handleCreatePostClick = () => {
     if (!isLoggedIn) {
-      alert("로그인이 후 이용해주세요."); // 로그인하지 않은 경우 알림 표시
+      alert("로그인 후 이용해주세요."); // 로그인하지 않은 경우 알림 표시
+      navigate("/login");
       return;
     }
     navigate("/board/create"); // 로그인한 경우 문의 작성 페이지로 이동

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import InnerContainer from "./InnerContainer";
-import { handleBookmarkClick } from "../utills/bookmarkUtils";
+import { useBookmark } from "../utills/bookmarkUtils";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
@@ -88,6 +88,7 @@ export const QuantityDisplay = styled.span`
 
 function ProductDetailPage() {
   const [productQuantities, setProductQuantities] = useState({}); // 각 상품의 수량 상태 추가
+  const handleBookmarkClick = useBookmark();
 
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {

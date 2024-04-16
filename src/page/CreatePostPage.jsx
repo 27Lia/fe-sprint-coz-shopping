@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { db, auth } from "../firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 import StyledButton from "../component/Button";
 import InnerContainer from "./InnerContainer";
@@ -17,6 +16,7 @@ const PostContainer = styled.div`
   border: 1px solid #ddd;
   height: 70vh;
   width: 100%;
+  margin-top: 150px;
 `;
 
 const BaseInput = styled.textarea`
@@ -40,15 +40,11 @@ const PostButton = styled(StyledButton)`
 function CreatePostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const navigate = useNavigate();
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
-    if (!isLoggedIn) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
+
     const currentUser = auth.currentUser;
     if (!currentUser) return;
 

@@ -18,6 +18,7 @@ const PostDetailContainer = styled.div`
   border: 1px solid #ddd;
   height: 70vh;
   width: 100%;
+  margin-top: 150px;
 `;
 
 const StyledInput = styled.textarea`
@@ -61,7 +62,6 @@ function PostDetailPage() {
   const { postId } = useParams(); // URL에서 게시글 ID 가져오기
   const [post, setPost] = useState(null);
   const navigate = useNavigate();
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 상태
   const [editedTitle, setEditedTitle] = useState("");
   const [editedContent, setEditedContent] = useState("");
@@ -84,10 +84,19 @@ function PostDetailPage() {
   }, [postId, fetchPost]);
 
   const handleEdit = () => {
-    if (!isLoggedIn) {
-      alert("로그인이 필요합니다.");
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      alert("로그인 후 이용해주세요.");
+      navigate("/login");
       return;
     }
+
+    if (currentUser.uid !== post.authorId) {
+      alert("본인의 게시물만 수정할 수 있습니다.");
+      return;
+    }
+
     setEditedTitle(post.title);
     setEditedContent(post.content);
     setIsEditing(true);
@@ -107,13 +116,12 @@ function PostDetailPage() {
   };
 
   const handleDelete = async () => {
-    if (!isLoggedIn) {
-      alert("로그인이 필요합니다.");
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      alert("로그인 후 이용해주세요.");
+      navigate("/login");
       return;
     }
-    const currentUser = auth.currentUser;
-    if (!currentUser) return;
-
     if (currentUser.uid !== post.authorId) {
       alert("본인의 게시물만 삭제할 수 있습니다.");
       return;

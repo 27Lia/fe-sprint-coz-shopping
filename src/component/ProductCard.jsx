@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { toast } from "react-toastify";
-import { handleBookmarkClick } from "../utills/bookmarkUtils";
+import { useBookmark } from "../utills/bookmarkUtils";
 
 const StyleProductCard = styled.li`
   div:not(:nth-child(1)) {
@@ -57,6 +57,7 @@ const StyleProductCard = styled.li`
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
+  const handleBookmarkClick = useBookmark();
 
   const goToDetailPage = () => {
     if (product.type === "Product") {
