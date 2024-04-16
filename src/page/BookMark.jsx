@@ -6,6 +6,12 @@ import Nav from "../component/Nav";
 import { db, auth } from "../firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useSelector } from "react-redux";
+import { useBookmark } from "../utills/bookmarkUtils";
+import {
+  QuantityButton,
+  QuantityControl,
+  QuantityDisplay,
+} from "./ProductDetailPage";
 
 const StyleBookMark = styled.div`
   margin-top: 150px;
@@ -39,46 +45,51 @@ const StyleBookMark = styled.div`
 
 function BookMark() {
   const [filterOption, setFilterOption] = useState("전체");
-  const products = useSelector((state) => state.products); // 전체 상품 데이터
+  const products = useSelector((state) => state.products);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [quantities, setQuantities] = useState({});
+  const handleBookmarkClick = useBookmark();
 
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const userDocRef = doc(db, "users", user.uid);
-
-        // 사용자 문서의 실시간 변경 감시
         const unsubscribeSnapshot = onSnapshot(userDocRef, (docSnap) => {
           if (docSnap.exists()) {
             const userData = docSnap.data();
-            // 북마크 정보를 바탕으로 상품 필터링
+            const bookmarks = userData.bookmarks || [];
+            const newQuantities = {};
             const bookmarkedFilteredProducts = products.filter((product) =>
-              userData.bookmarks.some(
-                (bookmark) =>
-                  bookmark.id === product.id &&
-                  (filterOption === "전체" || product.type === filterOption)
-              )
+              bookmarks.some((bookmark) => {
+                if (bookmark.id === product.id) {
+                  newQuantities[product.id] = bookmark.quantity;
+                  return true;
+                }
+                return false;
+              })
             );
-
-            // 필터링된 상품을 상태에 저장하여 렌더링
+            setQuantities(newQuantities);
             setFilteredProducts(bookmarkedFilteredProducts);
           } else {
-            // 문서가 존재하지 않는 경우, 빈 배열 설정
             setFilteredProducts([]);
           }
         });
-
-        // 컴포넌트 언마운트 시 실시간 감시 해제
-        return unsubscribeSnapshot;
+        return () => unsubscribeSnapshot;
       } else {
-        // 사용자가 로그인하지 않은 경우, 전체 상품 목록을 렌더링
         setFilteredProducts(products);
       }
     });
-
-    // 컴포넌트 언마운트 시 인증 상태 리스너 해제
     return () => unsubscribeAuth();
   }, [products, filterOption]);
+
+  const handleQuantityChange = (productId, delta) => {
+    const newQuantity = Math.max(1, (quantities[productId] || 1) + delta);
+    setQuantities((prev) => ({
+      ...prev,
+      [productId]: newQuantity,
+    }));
+    handleBookmarkClick({ id: productId }, delta);
+  };
 
   return (
     <InnerContainer>
@@ -89,16 +100,31 @@ function BookMark() {
             filteredProducts.map((product) => (
               <div key={product.id}>
                 <ProductCard product={product} />
+                <QuantityControl>
+                  <p>수량: {quantities[product.id] || 1}</p>
+                  <QuantityButton
+                    onClick={() => handleQuantityChange(product.id, -1)}
+                  >
+                    -
+                  </QuantityButton>
+                  <QuantityDisplay>
+                    {quantities[product.id] || 1}
+                  </QuantityDisplay>
+                  <QuantityButton
+                    onClick={() => handleQuantityChange(product.id, 1)}
+                  >
+                    +
+                  </QuantityButton>
+                </QuantityControl>
               </div>
             ))
           ) : (
-            <h4>북마크된 항목이 존재하지 않습니다</h4>
+            <h4>북마크된 항목이 존재하지 않습니다.</h4>
           )}
         </main>
-
-        <div className="blank"></div>
       </StyleBookMark>
     </InnerContainer>
   );
 }
+
 export default BookMark;

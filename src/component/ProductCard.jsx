@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { toast } from "react-toastify";
-import { useBookmark } from "../utills/bookmarkUtils";
 
 const StyleProductCard = styled.li`
   div:not(:nth-child(1)) {
@@ -32,14 +31,6 @@ const StyleProductCard = styled.li`
     width: 264px;
     height: 210px;
   }
-  .star {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    right: 10px;
-    cursor: pointer;
-    bottom: 10px;
-  }
 
   .title {
     font-weight: 800;
@@ -57,7 +48,6 @@ const StyleProductCard = styled.li`
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
-  const handleBookmarkClick = useBookmark();
 
   const goToDetailPage = () => {
     if (product.type === "Product") {
@@ -67,11 +57,6 @@ function ProductCard({ product }) {
     }
   };
 
-  const handleBookmark = async (e) => {
-    e.stopPropagation();
-    handleBookmarkClick(product);
-  };
-
   // 타입에 따라 다른 컴포넌트를 렌더링
   switch (product.type) {
     case "Product":
@@ -79,12 +64,6 @@ function ProductCard({ product }) {
         <StyleProductCard>
           <div className="product-box" onClick={goToDetailPage}>
             <img className="item-img" src={product.image_url} alt="Product" />
-            <img
-              onClick={handleBookmark}
-              className="star"
-              src={process.env.PUBLIC_URL + "/images/uncheckedStar.svg"}
-              alt="Bookmark"
-            />
           </div>
 
           <div className="title-box" onClick={goToDetailPage}>

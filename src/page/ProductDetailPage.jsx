@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import InnerContainer from "./InnerContainer";
 import { useBookmark } from "../utills/bookmarkUtils";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { auth, db } from "../firebase";
 
 const StyleProductDetail = styled.div`
   display: flex;
@@ -48,7 +46,7 @@ const ProductInfo = styled.div`
 
 const BookmarkBtn = styled.button`
   padding: 10px;
-  background-color: #007bff; /* 포인트 색상 */
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
@@ -56,7 +54,7 @@ const BookmarkBtn = styled.button`
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #0056b3; /* 포인트 색상의 조금 더 어둡게 */
+    background-color: #0056b3;
   }
 `;
 
@@ -87,6 +85,8 @@ export const QuantityDisplay = styled.span`
 `;
 
 function ProductDetailPage() {
+  const [quantity, setQuantity] = useState(1);
+
   const handleBookmarkClick = useBookmark();
 
   const { productId } = useParams();
@@ -100,7 +100,15 @@ function ProductDetailPage() {
   }
 
   const handleBookmark = () => {
-    handleBookmarkClick(product);
+    handleBookmarkClick(product, quantity);
+  };
+
+  const increaseQuantity = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const decreaseQuantity = () => {
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
 
   return (
@@ -127,6 +135,11 @@ function ProductDetailPage() {
               <p>{`${product.discountPercentage}%`}</p>
             )}
           </ProductInfo>
+          <QuantityControl>
+            <QuantityButton onClick={decreaseQuantity}>-</QuantityButton>
+            <QuantityDisplay>{quantity}</QuantityDisplay>
+            <QuantityButton onClick={increaseQuantity}>+</QuantityButton>
+          </QuantityControl>
           <BookmarkBtn onClick={handleBookmark}>장바구니 담기</BookmarkBtn>
         </InfoBox>
       </StyleProductDetail>

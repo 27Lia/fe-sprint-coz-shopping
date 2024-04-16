@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { db, auth } from "../firebase";
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 import StyledButton from "../component/Button";
 import InnerContainer from "./InnerContainer";
