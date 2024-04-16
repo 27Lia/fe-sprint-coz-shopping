@@ -5,8 +5,9 @@
   <title>Redirecting...</title>
   <script>
 
-    if (location.pathname !== "/") {
-      location.replace("/fe-sprint-coz-shopping/" + location.pathname + location.search);
+if (!location.pathname.startsWith('/fe-sprint-coz-shopping/')) {
+      location.replace('/fe-sprint-coz-shopping' + location.pathname + location.search);
+      console.log(location)
     }
   </script>
 </head>
