@@ -6,6 +6,9 @@ import Nav from "../component/Nav";
 import { useSelector } from "react-redux";
 import { db, auth } from "../firebase";
 import { doc, onSnapshot } from "firebase/firestore";
+import { fetchProducts } from "../redux";
+import { useDispatch } from "react-redux";
+import { useInView } from "react-intersection-observer";
 
 const StyleProductList = styled.div`
   margin-top: 150px;
@@ -43,6 +46,23 @@ function ProductListPage() {
   const [filterOption, setFilterOption] = useState("전체");
   const products = useSelector((state) => state.products);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const dispatch = useDispatch();
+
+  const [ref, inView] = useInView({
+    threshold: 0,
+    rootMargin: "100px 0px", // 100px 먼저 감지
+    triggerOnce: false, // 여러 번 트리거되도록 설정
+  });
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (inView) {
+      dispatch(fetchProducts());
+    }
+  }, [inView]);
 
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
@@ -93,8 +113,8 @@ function ProductListPage() {
           {filteredProducts.map((product, index) => (
             <ProductCard key={index} product={product} />
           ))}
+          <div className="blank" ref={ref} />
         </main>
-        <div className="blank"></div>
       </StyleProductList>
     </InnerContainer>
   );
