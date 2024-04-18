@@ -7,7 +7,7 @@ import thunk from "redux-thunk"; // Redux Thunk 미들웨어 임포트
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["isLoggedIn", "products", "currentPage"],
+  whitelist: ["isLoggedIn", "products"],
 };
 
 const persistedReducer = persistReducer(persistConfig, userReducer);

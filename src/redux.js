@@ -45,6 +45,7 @@ export const userReducer = (state = initialState, action) => {
 export const fetchProducts = () => {
   return (dispatch, getState) => {
     const { currentPage } = getState(); // 현재 페이지 번호를 가져옵니다.
+    console.log(currentPage);
     const productsPerPage = 4; // 페이지 당 상품 수를 10으로 설정
     const startIndex = currentPage * productsPerPage; // 시작 인덱스 계산
     const newProducts = data.slice(startIndex, startIndex + productsPerPage); // 새 상품 목록을 추출
