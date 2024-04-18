@@ -5,8 +5,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { login } from "../redux";
 import StyledButton from "../component/Button";
-import { db, auth } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { auth } from "../firebase";
+// import { doc, getDoc } from "firebase/firestore";
 
 const LoginContainer = styled.div`
   display: flex;
