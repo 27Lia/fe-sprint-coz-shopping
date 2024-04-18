@@ -45,13 +45,13 @@ const StyleProductList = styled.div`
 function ProductListPage() {
   const [filterOption, setFilterOption] = useState("전체");
   const products = useSelector((state) => state.products);
+
   const [filteredProducts, setFilteredProducts] = useState([]);
   const dispatch = useDispatch();
 
   const [ref, inView] = useInView({
     threshold: 0,
-    rootMargin: "100px 0px", // 100px 먼저 감지
-    triggerOnce: false, // 여러 번 트리거되도록 설정
+    triggerOnce: false,
   });
 
   useEffect(() => {
@@ -62,7 +62,7 @@ function ProductListPage() {
     if (inView) {
       dispatch(fetchProducts());
     }
-  }, [inView]);
+  }, [inView, dispatch]);
 
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {

@@ -6,6 +6,12 @@ export const LOAD_PRODUCTS = "LOAD_PRODUCTS";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const INCREMENT_PAGE = "INCREMENT_PAGE";
+export const RESET_PAGE = "RESET_PAGE";
+
+// 페이지 번호를 초기화하는 액션 생성 함수
+export const resetPage = () => ({
+  type: RESET_PAGE,
+});
 
 // 상품 목록을 불러오는 액션 생성 함수
 export const loadProducts = (products) => ({
@@ -37,6 +43,8 @@ export const userReducer = (state = initialState, action) => {
       return { ...state, products: [...state.products, ...action.payload] };
     case INCREMENT_PAGE:
       return { ...state, currentPage: state.currentPage + 1 };
+    case RESET_PAGE:
+      return { ...state, currentPage: 0 }; // 페이지 번호 초기화
     default:
       return state;
   }
@@ -44,13 +52,20 @@ export const userReducer = (state = initialState, action) => {
 
 export const fetchProducts = () => {
   return (dispatch, getState) => {
-    const { currentPage } = getState(); // 현재 페이지 번호를 가져옵니다.
-    console.log(currentPage);
-    const productsPerPage = 4; // 페이지 당 상품 수를 10으로 설정
-    const startIndex = currentPage * productsPerPage; // 시작 인덱스 계산
-    const newProducts = data.slice(startIndex, startIndex + productsPerPage); // 새 상품 목록을 추출
-
-    dispatch(loadProducts(newProducts));
-    dispatch(incrementPage()); // 페이지 번호 증가 처리
+    const { currentPage, products } = getState();
+    if (products.length < data.length) {
+      const productsPerPage = 4;
+      const startIndex = currentPage * productsPerPage;
+      if (startIndex < data.length) {
+        const newProducts = data.slice(
+          startIndex,
+          startIndex + productsPerPage
+        );
+        dispatch(loadProducts(newProducts));
+        if (startIndex + productsPerPage < data.length) {
+          dispatch(incrementPage());
+        }
+      }
+    }
   };
 };
