@@ -9,12 +9,12 @@ import InnerContainer from "./InnerContainer";
 
 const BoardContainer = styled.div`
   padding: 20px;
-  margin-top: 150px;
 `;
 
 const Title = styled.h1`
   text-align: center;
   margin-bottom: 20px;
+  min-width: 350px;
 `;
 
 const PostList = styled.ul`
@@ -31,6 +31,7 @@ const PostItem = styled.li`
   margin-bottom: 10px;
   cursor: pointer;
   transition: background-color 0.3s;
+  min-width: 350px;
 
   h3 {
     max-height: 3vh;
@@ -46,6 +47,7 @@ const PageNavigation = styled.div`
   justify-content: center;
   margin-top: 20px;
   margin-bottom: 60px;
+  min-width: 350px;
 `;
 
 const PageButton = styled.button`
@@ -69,6 +71,7 @@ const CreateButtonContainer = styled.div`
   margin-top: 20px;
   max-width: 800px;
   margin: 0 auto;
+  min-width: 350px;
 `;
 
 function BoardPage() {

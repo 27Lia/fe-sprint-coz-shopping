@@ -9,8 +9,14 @@ const StyleProductDetail = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
   gap: 60px;
   height: 100%;
+
+  @media screen and (max-width: 500px) {
+    flex-direction: column;
+    gap: 30px;
+  }
 `;
 
 const Img = styled.img`

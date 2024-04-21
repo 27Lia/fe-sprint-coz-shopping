@@ -17,7 +17,9 @@ html, body {
   } 
 button {
     border: none;
-    background-color: transparent;
+    background-color: transparent;    
+    color: #fff;
+
     
   }
   .app {

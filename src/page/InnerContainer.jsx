@@ -5,7 +5,7 @@ const InnerContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
-  /* top: 150px; */
+  top: 150px;
   height: 100%;
 `;
 

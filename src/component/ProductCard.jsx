@@ -4,6 +4,8 @@ import { styled } from "styled-components";
 import { toast } from "react-toastify";
 
 const StyleProductCard = styled.li`
+  margin: 0 auto;
+
   div:not(:nth-child(1)) {
     margin: 6px 0;
   }

@@ -17,6 +17,7 @@ const PostDetailContainer = styled.div`
   border: 1px solid #ddd;
   height: 70vh;
   width: 100%;
+  min-width: 350px;
   margin-top: 150px;
 `;
 

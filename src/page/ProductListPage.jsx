@@ -11,8 +11,6 @@ import { useDispatch } from "react-redux";
 import { useInView } from "react-intersection-observer";
 
 const StyleProductList = styled.div`
-  margin-top: 150px;
-
   nav {
     display: flex;
     margin-top: 24px;
@@ -22,16 +20,17 @@ const StyleProductList = styled.div`
 
   ul {
     display: flex;
+    min-width: 350px;
     gap: 36px;
   }
 
   main {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+
     grid-template-rows: repeat(4, 3fr);
     align-items: center;
-    margin: 24px 76px;
-    gap: 0.75rem;
+    gap: 17px;
   }
 
   button {

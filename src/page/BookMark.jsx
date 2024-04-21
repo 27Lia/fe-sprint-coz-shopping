@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ProductCard from "../component/ProductCard";
 import { styled } from "styled-components";
 import InnerContainer from "./InnerContainer";
-import Nav from "../component/Nav";
+// import Nav from "../component/Nav";
 import { db, auth } from "../firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useSelector } from "react-redux";
@@ -12,9 +12,10 @@ import {
   QuantityControl,
   QuantityDisplay,
 } from "./ProductDetailPage";
-
+const Product = styled.div`
+  margin: 0 auto;
+`;
 const StyleBookMark = styled.div`
-  margin-top: 150px;
   nav {
     display: flex;
     align-items: center;
@@ -28,11 +29,11 @@ const StyleBookMark = styled.div`
 
   main {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     grid-template-rows: repeat(4, 3fr);
     align-items: center;
     margin: 24px 76px;
-    gap: 0.75rem;
+    gap: 17px;
   }
 
   button {
@@ -94,14 +95,13 @@ function BookMark() {
   return (
     <InnerContainer>
       <StyleBookMark>
-        <Nav setFilterOption={setFilterOption} />
+        {/* <Nav setFilterOption={setFilterOption} /> */}
         <main>
           {filteredProducts.length ? (
             filteredProducts.map((product) => (
-              <div key={product.id}>
+              <Product key={product.id}>
                 <ProductCard product={product} />
                 <QuantityControl>
-                  <p>수량: {quantities[product.id] || 1}</p>
                   <QuantityButton
                     onClick={() => handleQuantityChange(product.id, -1)}
                   >
@@ -116,7 +116,7 @@ function BookMark() {
                     +
                   </QuantityButton>
                 </QuantityControl>
-              </div>
+              </Product>
             ))
           ) : (
             <h4>북마크된 항목이 존재하지 않습니다.</h4>
