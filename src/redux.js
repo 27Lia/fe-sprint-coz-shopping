@@ -44,7 +44,7 @@ export const userReducer = (state = initialState, action) => {
     case INCREMENT_PAGE:
       return { ...state, currentPage: state.currentPage + 1 };
     case RESET_PAGE:
-      return { ...state, currentPage: 0 }; // 페이지 번호 초기화
+      return { ...state, currentPage: 0 };
     default:
       return state;
   }

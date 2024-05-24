@@ -1,9 +1,82 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import InnerContainer from "./InnerContainer";
 import { useBookmark } from "../utills/bookmarkUtils";
+
+function ProductDetailPage() {
+  const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+
+  const handleBookmarkClick = useBookmark();
+
+  const { productId } = useParams();
+  const products = useSelector((state) => state.products);
+  const product = products.find(
+    (product) => product.id.toString() === productId
+  );
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
+
+  const handleBookmark = () => {
+    if (!isLoggedIn) {
+      alert("로그인 후 이용해주세요.");
+      navigate("/login");
+      return;
+    }
+
+    handleBookmarkClick(product, quantity);
+  };
+
+  const increaseQuantity = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const decreaseQuantity = () => {
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  };
+
+  return (
+    <InnerContainer>
+      <StyleProductDetail>
+        <Img
+          src={
+            product.type === "Brand"
+              ? product.brand_image_url
+              : product.image_url
+          }
+          alt="Product"
+        />
+        <InfoBox>
+          <ProductInfo>
+            {product.brand_name || product.title ? (
+              <h2>{product.brand_name || product.title}</h2>
+            ) : null}
+            {product.price && <p className="price">{`${product.price}원`}</p>}
+            {product.sub_title && (
+              <p className="description">{product.sub_title}</p>
+            )}
+            {product.discountPercentage && (
+              <p>{`${product.discountPercentage}%`}</p>
+            )}
+          </ProductInfo>
+          <QuantityControl>
+            <QuantityButton onClick={decreaseQuantity}>-</QuantityButton>
+            <QuantityDisplay>{quantity}</QuantityDisplay>
+            <QuantityButton onClick={increaseQuantity}>+</QuantityButton>
+          </QuantityControl>
+          <BookmarkBtn onClick={handleBookmark}>장바구니 담기</BookmarkBtn>
+        </InfoBox>
+      </StyleProductDetail>
+    </InnerContainer>
+  );
+}
+
+export default ProductDetailPage;
 
 const StyleProductDetail = styled.div`
   display: flex;
@@ -89,68 +162,3 @@ export const QuantityDisplay = styled.span`
   border: 1px solid #ccc;
   border-radius: 5px;
 `;
-
-function ProductDetailPage() {
-  const [quantity, setQuantity] = useState(1);
-
-  const handleBookmarkClick = useBookmark();
-
-  const { productId } = useParams();
-  const products = useSelector((state) => state.products);
-  const product = products.find(
-    (product) => product.id.toString() === productId
-  );
-
-  if (!product) {
-    return <div>Loading...</div>;
-  }
-
-  const handleBookmark = () => {
-    handleBookmarkClick(product, quantity);
-  };
-
-  const increaseQuantity = () => {
-    setQuantity((prev) => prev + 1);
-  };
-
-  const decreaseQuantity = () => {
-    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-  };
-
-  return (
-    <InnerContainer>
-      <StyleProductDetail>
-        <Img
-          src={
-            product.type === "Brand"
-              ? product.brand_image_url
-              : product.image_url
-          }
-          alt="Product"
-        />
-        <InfoBox>
-          <ProductInfo>
-            {product.brand_name || product.title ? (
-              <h2>{product.brand_name || product.title}</h2>
-            ) : null}
-            {product.price && <p className="price">{`${product.price}원`}</p>}
-            {product.sub_title && (
-              <p className="description">{product.sub_title}</p>
-            )}
-            {product.discountPercentage && (
-              <p>{`${product.discountPercentage}%`}</p>
-            )}
-          </ProductInfo>
-          <QuantityControl>
-            <QuantityButton onClick={decreaseQuantity}>-</QuantityButton>
-            <QuantityDisplay>{quantity}</QuantityDisplay>
-            <QuantityButton onClick={increaseQuantity}>+</QuantityButton>
-          </QuantityControl>
-          <BookmarkBtn onClick={handleBookmark}>장바구니 담기</BookmarkBtn>
-        </InfoBox>
-      </StyleProductDetail>
-    </InnerContainer>
-  );
-}
-
-export default ProductDetailPage;

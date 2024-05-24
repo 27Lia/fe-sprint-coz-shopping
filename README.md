@@ -2,7 +2,7 @@
 
 이 웹 사이트는 Firebase를 기반으로 한 간단한 쇼핑몰 웹 사이트입니다.
 
-[🚀 Live Demo](https://fe-sprint-coz-shopping-eta.vercel.app/)
+[🚀 Live Demo](https://fe-sprint-coz-shopping-git-main-27lias-projects.vercel.app/)
 
 <table>
   <tr>
