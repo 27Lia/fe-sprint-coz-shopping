@@ -1,5 +1,4 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Footer from "./component/Footer";
 import BookMark from "./page/BookMark";
 import ProductListPage from "./page/ProductListPage";
 import Header from "./component/Header";
@@ -11,17 +10,8 @@ import PostDetailPage from "./page/PostDetailPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductDetailPage from "./page/ProductDetailPage";
-// import { fetchProducts } from "./redux";
-// import { useDispatch } from "react-redux";
-// import { useEffect } from "react";
 
 function App() {
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(fetchProducts());
-  // }, [dispatch]);
-
   return (
     <BrowserRouter basename="/fe-sprint-coz-shopping">
       <div className="app">
@@ -36,8 +26,6 @@ function App() {
           <Route path="/board/:postId" element={<PostDetailPage />} />
           <Route path="/product/:productId" element={<ProductDetailPage />} />
         </Routes>
-        {/* <Footer /> */}
-
         <ToastContainer autoClose={700} />
       </div>
     </BrowserRouter>
