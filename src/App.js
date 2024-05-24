@@ -13,7 +13,7 @@ import ProductDetailPage from "./page/ProductDetailPage";
 
 function App() {
   return (
-    <BrowserRouter basename="/fe-sprint-coz-shopping">
+    <BrowserRouter>
       <div className="app">
         <Header />
         <Routes>
