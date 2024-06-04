@@ -7,6 +7,7 @@ export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const INCREMENT_PAGE = "INCREMENT_PAGE";
 export const RESET_PAGE = "RESET_PAGE";
+export const RESET_PRODUCTS = "RESET_PRODUCTS";
 
 // 페이지 번호를 초기화하는 액션 생성 함수
 export const resetPage = () => ({
@@ -26,6 +27,7 @@ export const incrementPage = () => ({
 
 export const login = () => ({ type: LOGIN });
 export const logout = () => ({ type: LOGOUT });
+export const resetProducts = () => ({ type: RESET_PRODUCTS });
 
 const initialState = {
   isLoggedIn: false, // 로그인 상태
@@ -45,27 +47,21 @@ export const userReducer = (state = initialState, action) => {
       return { ...state, currentPage: state.currentPage + 1 };
     case RESET_PAGE:
       return { ...state, currentPage: 0 };
+    case RESET_PRODUCTS:
+      return { ...state, products: [] };
     default:
       return state;
   }
 };
 
-export const fetchProducts = () => {
-  return (dispatch, getState) => {
-    const { currentPage, products } = getState();
-    if (products.length < data.length) {
-      const productsPerPage = 4;
-      const startIndex = currentPage * productsPerPage;
-      if (startIndex < data.length) {
-        const newProducts = data.slice(
-          startIndex,
-          startIndex + productsPerPage
-        );
-        dispatch(loadProducts(newProducts));
-        if (startIndex + productsPerPage < data.length) {
-          dispatch(incrementPage());
-        }
-      }
-    }
-  };
+export const fetchProducts = () => (dispatch, getState) => {
+  const { currentPage } = getState();
+  const productsPerPage = 10;
+  const startIndex = currentPage * productsPerPage;
+
+  if (startIndex >= data.length) return;
+
+  const newProducts = data.slice(startIndex, startIndex + productsPerPage);
+  dispatch(loadProducts(newProducts));
+  dispatch(incrementPage());
 };

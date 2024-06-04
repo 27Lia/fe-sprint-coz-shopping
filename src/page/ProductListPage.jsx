@@ -6,7 +6,7 @@ import Nav from "../component/Nav";
 import { useSelector, useDispatch } from "react-redux";
 import { db, auth } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { fetchProducts } from "../redux"; // 상품목록들
+import { fetchProducts, resetPage, resetProducts } from "../redux"; // 상품목록들
 import { useInView } from "react-intersection-observer";
 
 function ProductListPage() {
@@ -21,17 +21,19 @@ function ProductListPage() {
     triggerOnce: false,
   });
 
-  // 컴포넌트가 처음 마운트될 때 제품 목록을 불러오기
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
-
   // 페이지의 특정 지점에 도달하면 추가 제품 불러오기
   useEffect(() => {
     if (inView) {
       dispatch(fetchProducts());
     }
-  }, [inView, dispatch]);
+  }, [inView, filterOption, dispatch]);
+
+  // 필터 옵션이 변경될 때 초기 제품 로드
+  useEffect(() => {
+    dispatch(resetPage());
+    dispatch(resetProducts());
+    dispatch(fetchProducts());
+  }, [filterOption, dispatch]);
 
   // 제품 필터링 함수
   const filterProducts = async (products, filterOption) => {
@@ -75,8 +77,8 @@ function ProductListPage() {
           {filteredProducts.map((product, index) => (
             <ProductCard key={index} product={product} />
           ))}
-          <div className="blank" ref={ref} />
         </main>
+        <div className="blank" ref={ref} />
       </StyleProductList>
     </InnerContainer>
   );
@@ -110,6 +112,7 @@ const StyleProductList = styled.div`
     cursor: pointer;
   }
   .blank {
-    height: 100px;
+    /* height: 100px; */
+    border: 2px solid;
   }
 `;

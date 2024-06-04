@@ -6,53 +6,6 @@ import styled from "styled-components";
 import StyledButton from "../component/Button";
 import InnerContainer from "./InnerContainer";
 
-const PostDetailContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  gap: 20px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  height: 70vh;
-  width: 100%;
-  min-width: 350px;
-  margin-top: 150px;
-`;
-
-const StyledInput = styled.textarea`
-  margin-bottom: 15px;
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: 1px solid #dee2e6;
-  width: 100%;
-  font-size: 18px;
-  height: 40vh;
-`;
-
-const TitleInput = styled(StyledInput)`
-  height: 10vh;
-`;
-
-const PostTitle = styled.h1`
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #343a40;
-  max-height: 5vh;
-  overflow-y: auto;
-  max-width: 80%;
-`;
-
-const PostContent = styled.p`
-  max-width: 80%;
-  max-height: 40vh;
-  overflow: auto;
-  font-size: 20px;
-  color: #495057;
-  line-height: 1.5;
-`;
-
 // 이전의 StyledButton 디자인과 충돌이 있을 수 있으므로 여기에 새로운 스타일 추가
 const PostButton = styled(StyledButton)`
   margin: 0 10px;
@@ -172,3 +125,50 @@ function PostDetailPage() {
 }
 
 export default PostDetailPage;
+
+const PostDetailContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  gap: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  height: 70vh;
+  width: 100%;
+  min-width: 350px;
+  margin-top: 150px;
+`;
+
+const StyledInput = styled.textarea`
+  margin-bottom: 15px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #dee2e6;
+  width: 100%;
+  font-size: 18px;
+  height: 40vh;
+`;
+
+const TitleInput = styled(StyledInput)`
+  height: 10vh;
+`;
+
+const PostTitle = styled.h1`
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #343a40;
+  max-height: 5vh;
+  overflow-y: auto;
+  max-width: 80%;
+`;
+
+const PostContent = styled.p`
+  max-width: 80%;
+  max-height: 40vh;
+  overflow: auto;
+  font-size: 20px;
+  color: #495057;
+  line-height: 1.5;
+`;
