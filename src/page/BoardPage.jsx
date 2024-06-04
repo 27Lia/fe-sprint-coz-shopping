@@ -7,73 +7,6 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import InnerContainer from "./InnerContainer";
 
-const BoardContainer = styled.div`
-  padding: 20px;
-`;
-
-const Title = styled.h1`
-  text-align: center;
-  margin-bottom: 20px;
-  min-width: 350px;
-`;
-
-const PostList = styled.ul`
-  padding: 0;
-  margin: 0 auto;
-  max-width: 800px;
-`;
-
-const PostItem = styled.li`
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  min-width: 350px;
-
-  h3 {
-    max-height: 3vh;
-    overflow: auto;
-  }
-  &:hover {
-    background-color: #f1f1f1;
-  }
-`;
-
-const PageNavigation = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 60px;
-  min-width: 350px;
-`;
-
-const PageButton = styled.button`
-  margin: 0 5px;
-  padding: 10px 20px;
-  border: none;
-  background-color: #008cba;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #005f5f;
-  }
-`;
-
-const CreateButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-  min-width: 350px;
-`;
-
 function BoardPage() {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -149,3 +82,70 @@ function BoardPage() {
 }
 
 export default BoardPage;
+
+const BoardContainer = styled.div`
+  padding: 20px;
+`;
+
+const Title = styled.h1`
+  text-align: center;
+  margin-bottom: 20px;
+  min-width: 350px;
+`;
+
+const PostList = styled.ul`
+  padding: 0;
+  margin: 0 auto;
+  max-width: 800px;
+`;
+
+const PostItem = styled.li`
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-width: 350px;
+
+  h3 {
+    max-height: 3vh;
+    overflow: auto;
+  }
+  &:hover {
+    background-color: #f1f1f1;
+  }
+`;
+
+const PageNavigation = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 60px;
+  min-width: 350px;
+`;
+
+const PageButton = styled.button`
+  margin: 0 5px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #008cba;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #005f5f;
+  }
+`;
+
+const CreateButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  min-width: 350px;
+`;

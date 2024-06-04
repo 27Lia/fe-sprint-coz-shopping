@@ -6,37 +6,6 @@ import styled from "styled-components";
 import StyledButton from "../component/Button";
 import InnerContainer from "./InnerContainer";
 
-const PostContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  gap: 20px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  height: 70vh;
-  width: 100%;
-  margin-top: 150px;
-`;
-
-const BaseInput = styled.textarea`
-  margin-bottom: 15px;
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: 1px solid #dee2e6;
-  width: 100%;
-  font-size: 18px;
-  height: 40vh;
-`;
-
-const TitleInput = styled(BaseInput)`
-  height: 10vh;
-`;
-
-const PostButton = styled(StyledButton)`
-  margin: 0 10px;
-`;
-
 function CreatePostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -79,3 +48,34 @@ function CreatePostPage() {
 }
 
 export default CreatePostPage;
+
+const PostContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  height: 70vh;
+  width: 100%;
+  margin-top: 150px;
+`;
+
+const BaseInput = styled.textarea`
+  margin-bottom: 15px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #dee2e6;
+  width: 100%;
+  font-size: 18px;
+  height: 40vh;
+`;
+
+const TitleInput = styled(BaseInput)`
+  height: 10vh;
+`;
+
+const PostButton = styled(StyledButton)`
+  margin: 0 10px;
+`;

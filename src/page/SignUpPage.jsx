@@ -5,29 +5,6 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { styled } from "styled-components";
 import StyledButton from "../component/Button";
 
-const SignUpContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  gap: 15px;
-`;
-
-const StyledInput = styled.input`
-  margin-bottom: 10px;
-  padding: 15px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  width: 300px;
-  font-size: 20px;
-`;
-
-const SignUpForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -97,3 +74,27 @@ function SignUpPage() {
 }
 
 export default SignUpPage;
+
+const SignUpContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 15px;
+`;
+
+const StyledInput = styled.input`
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  width: 300px;
+  font-size: 20px;
+`;
+
+const SignUpForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;

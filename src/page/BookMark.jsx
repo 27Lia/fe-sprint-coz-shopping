@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import ProductCard from "../component/ProductCard";
 import { styled } from "styled-components";
 import InnerContainer from "./InnerContainer";
-// import Nav from "../component/Nav";
 import { db, auth } from "../firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useSelector } from "react-redux";
@@ -12,37 +11,6 @@ import {
   QuantityControl,
   QuantityDisplay,
 } from "./ProductDetailPage";
-const Product = styled.div`
-  margin: 0 auto;
-`;
-const StyleBookMark = styled.div`
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  ul {
-    display: flex;
-    gap: 36px;
-  }
-
-  main {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    grid-template-rows: repeat(4, 3fr);
-    align-items: center;
-    margin: 24px 76px;
-    gap: 17px;
-  }
-
-  button {
-    cursor: pointer;
-  }
-  .blank {
-    height: 100px;
-  }
-`;
 
 function BookMark() {
   const [filterOption, setFilterOption] = useState("전체");
@@ -128,3 +96,35 @@ function BookMark() {
 }
 
 export default BookMark;
+
+const Product = styled.div`
+  margin: 0 auto;
+`;
+const StyleBookMark = styled.div`
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ul {
+    display: flex;
+    gap: 36px;
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-rows: repeat(4, 3fr);
+    align-items: center;
+    margin: 24px 76px;
+    gap: 17px;
+  }
+
+  button {
+    cursor: pointer;
+  }
+  .blank {
+    height: 100px;
+  }
+`;
