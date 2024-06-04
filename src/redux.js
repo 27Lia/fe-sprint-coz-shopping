@@ -1,4 +1,3 @@
-// // src/redux.js
 import data from "./data.json";
 
 // 상품 목록을 불러오는 액션 타입 정의
@@ -42,7 +41,12 @@ export const userReducer = (state = initialState, action) => {
     case LOGOUT:
       return { ...state, isLoggedIn: false };
     case LOAD_PRODUCTS:
-      return { ...state, products: [...state.products, ...action.payload] };
+      return {
+        ...state,
+        products: action.payload.reset
+          ? action.payload.products
+          : [...state.products, ...action.payload.products],
+      };
     case INCREMENT_PAGE:
       return { ...state, currentPage: state.currentPage + 1 };
     case RESET_PAGE:
@@ -54,14 +58,22 @@ export const userReducer = (state = initialState, action) => {
   }
 };
 
-export const fetchProducts = () => (dispatch, getState) => {
+export const fetchProducts = (filterOption) => (dispatch, getState) => {
   const { currentPage } = getState();
   const productsPerPage = 10;
   const startIndex = currentPage * productsPerPage;
 
   if (startIndex >= data.length) return;
 
-  const newProducts = data.slice(startIndex, startIndex + productsPerPage);
-  dispatch(loadProducts(newProducts));
+  const filteredData =
+    filterOption === "전체"
+      ? data
+      : data.filter((product) => product.type === filterOption);
+  const newProducts = filteredData.slice(
+    startIndex,
+    startIndex + productsPerPage
+  );
+
+  dispatch(loadProducts({ products: newProducts, reset: currentPage === 0 }));
   dispatch(incrementPage());
 };

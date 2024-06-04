@@ -24,22 +24,22 @@ function ProductListPage() {
   // 페이지의 특정 지점에 도달하면 추가 제품 불러오기
   useEffect(() => {
     if (inView) {
-      dispatch(fetchProducts());
+      dispatch(fetchProducts(filterOption));
     }
-  }, [inView, filterOption, dispatch]);
+  }, [inView, dispatch, filterOption]);
 
   // 필터 옵션이 변경될 때 초기 제품 로드
   useEffect(() => {
     dispatch(resetPage());
     dispatch(resetProducts());
-    dispatch(fetchProducts());
+    dispatch(fetchProducts(filterOption));
   }, [filterOption, dispatch]);
 
   // 제품 필터링 함수
   const filterProducts = async (products, filterOption) => {
     let bookmarkedIds = [];
 
-    // //현재 로그인된 유저
+    // 현재 로그인된 유저
     const user = auth.currentUser;
 
     // 로그인되어 있는 경우 북마크 정보를 가져옴
@@ -110,9 +110,5 @@ const StyleProductList = styled.div`
 
   button {
     cursor: pointer;
-  }
-  .blank {
-    /* height: 100px; */
-    border: 2px solid;
   }
 `;
