@@ -3,7 +3,13 @@ import ProductCard from "../component/ProductCard";
 import { styled } from "styled-components";
 import InnerContainer from "./InnerContainer";
 import { db, auth } from "../firebase";
-import { doc, onSnapshot } from "firebase/firestore";
+import {
+  arrayRemove,
+  doc,
+  getDoc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { useBookmark } from "../utills/bookmarkUtils";
 import {
@@ -60,6 +66,23 @@ function BookMark() {
     handleBookmarkClick({ id: productId }, delta);
   };
 
+  const handleRemoveClick = async (productId) => {
+    const user = auth.currentUser;
+    if (user) {
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef); // Firestore에서 사용자 문서를 가져옵니다.
+      if (userDoc.exists()) {
+        const bookmarks = userDoc.data().bookmarks || [];
+        const updatedBookmarks = bookmarks.filter(
+          (bookmark) => bookmark.id !== productId
+        );
+        await updateDoc(userDocRef, {
+          bookmarks: updatedBookmarks,
+        });
+      }
+    }
+  };
+
   return (
     <InnerContainer>
       <StyleBookMark>
@@ -84,6 +107,9 @@ function BookMark() {
                     +
                   </QuantityButton>
                 </QuantityControl>
+                <RemoveButton onClick={() => handleRemoveClick(product.id)}>
+                  삭제
+                </RemoveButton>
               </Product>
             ))
           ) : (
@@ -127,4 +153,14 @@ const StyleBookMark = styled.div`
   .blank {
     height: 100px;
   }
+`;
+
+const RemoveButton = styled.button`
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 `;
