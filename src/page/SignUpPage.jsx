@@ -41,7 +41,14 @@ function SignUpPage() {
       await createUserWithEmailAndPassword(auth, email, password);
       navigate("/login");
     } catch (error) {
-      console.error("회원가입 에러:", error);
+      if (error.code === "auth/email-already-in-use") {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "이미 사용 중인 이메일입니다.",
+        }));
+      } else {
+        console.error("회원가입 에러:", error);
+      }
     }
   };
 
