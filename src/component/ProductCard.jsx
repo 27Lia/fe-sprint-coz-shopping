@@ -67,15 +67,15 @@ function ProductCard({ product }) {
           <div className="product-box" onClick={goToDetailPage}>
             <img className="item-img" src={product.image_url} alt="Product" />
           </div>
-
           <div className="title-box" onClick={goToDetailPage}>
             <span className="title">{product.title}</span>
             <span className="discountPercentage">
               {product.discountPercentage}%
             </span>
           </div>
-
-          <div className="price">{product.price}원</div>
+          <div className="price">
+            {parseInt(product.price, 10).toLocaleString("ko-KR")}원
+          </div>{" "}
         </StyleProductCard>
       );
 
